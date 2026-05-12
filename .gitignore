@@ -1,0 +1,22 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# Database
+db.sqlite3
+
+# Static & Media
+/static/
+/media/
+
+# Environment variables (Secrets)
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
