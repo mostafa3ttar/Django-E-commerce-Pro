@@ -4,6 +4,8 @@ crispy-bootstrap5==2026.3
 Django==6.0.4
 django-crispy-forms==2.6
 dotenv==0.9.9
+pycountry==26.2.16
 python-dotenv==1.2.2
+setuptools==82.0.1
 sqlparse==0.5.5
 tzdata==2026.2
