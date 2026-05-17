@@ -1,0 +1,16 @@
+{% load static %}
+
+{% include "parts/header.html" %}
+
+<body>
+    {% include "parts/navbar.html" %}
+    <div class="container my-4">
+        {% block content %}
+
+        {% endblock content %}
+    </div>
+    {% include "parts/footer.html" %}
+
+</body>
+
+</html>

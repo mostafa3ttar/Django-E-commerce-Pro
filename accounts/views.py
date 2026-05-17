@@ -47,10 +47,19 @@ def register(request):
             send_mail.send()
             
             return redirect('login' + f'?commad=verification&mail={email}')
-        else:
-            form = RegisterForm()
-            
-        context = {'form':form,}
+    else:
+        form = RegisterForm()
         
-        return render(request,'accounts/register.html',context)
-            
+        form.fields['password'].widget.attrs.update({'autocomplete': 'new-password'})
+        form.fields['phone_number'].widget.attrs.update({'autocomplete': 'off'})
+        form.fields['email'].widget.attrs.update({'autocomplete': 'off'})
+        
+    context = {'form':form,}
+    
+    return render(request,'accounts/register.html',context)
+
+def activate(request, uidb64, token):
+    pass
+    
+    
+        
