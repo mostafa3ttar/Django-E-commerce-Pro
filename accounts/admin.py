@@ -51,3 +51,9 @@ class AccountAdmin(UserAdmin):
         super().save_model(request, obj, form, change)
 
 admin.site.register(Account, AccountAdmin)
+
+
+# @admin.register(Account)
+# class AccountAdmin(admin.ModelAdmin):
+#     list_display = ['first_name', 'email', 'username']
+#     search_fields = ['username']
