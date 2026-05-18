@@ -3,6 +3,7 @@ from .forms import RegisterForm
 from .models import Account
 from django.conf import settings
 from django.contrib.auth import authenticate, login as auth_login
+from django.contrib import messages
 
 #Activation Account
 from django.core.mail import EmailMessage
@@ -70,8 +71,10 @@ def login(request):
         
         if user is not None:
             auth_login(request, user)
+            messages.success(request,'Logged in successfully.')
             # return redirect('home')
         else:
+            messages.error(request, 'Invalid email or password.')
             return redirect('accounts:login')
         
     return render(request, 'accounts/login.html')
@@ -87,8 +90,10 @@ def activate(request, uidb64, token):
     if user is not None and default_token_generator.check_token(user, token):
         user.is_active = True
         user.save()
+        messages.success(request, 'Your account has been activated successfully.')
         return redirect('accounts:login')
     else:
+        messages.error(request, 'The activation link is invalid or has expired.')
         return redirect('accounts:register')
     
     

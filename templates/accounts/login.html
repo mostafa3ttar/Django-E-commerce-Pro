@@ -20,6 +20,7 @@
     <div class="row justify-content-center">
         <div class="col-md-6 col-lg-4">
             <h1 class="row justify-content-center">Login</h1>
+            {% include "parts/_messages.html" %}
             <form method='POST' action="{% url 'accounts:login' %}" class="my-class" autocomplete="off">
                 {% csrf_token %}
                 <div class="form-group my-3">
