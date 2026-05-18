@@ -3,6 +3,7 @@ crispy-bootstrap4==2026.2
 crispy-bootstrap5==2026.3
 Django==6.0.4
 django-crispy-forms==2.6
+django-environ==0.13.0
 dotenv==0.9.9
 pycountry==26.2.16
 python-dotenv==1.2.2

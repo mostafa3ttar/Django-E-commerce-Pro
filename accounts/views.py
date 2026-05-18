@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from .forms import RegisterForm
 from .models import Account
+from django.conf import settings
+from django.contrib.auth import authenticate, login as auth_login
 
 #Activation Account
 from django.core.mail import EmailMessage
@@ -34,19 +36,19 @@ def register(request):
             
             # User Activate
             domain_name = get_current_site(request)   #To get domain
-            mail_subject = 'Please active your account'
-            message = render_to_string('account/account_verification_email.html',{
+            mail_subject = 'Please activate your account'
+            message = render_to_string('accounts/account_verification_email.html',{
                 'user':user,
                 'domain':domain_name,
                 'uid':urlsafe_base64_encode(force_bytes(user.pk)),  #To cipher id
                 'token':default_token_generator.make_token(user),
             })
             
-            to_email = email
-            send_mail = EmailMessage(mail_subject, message, to=[to_email])
+            to_email = form.cleaned_data['email']
+            send_mail = EmailMessage(mail_subject, message,to=[to_email])
             send_mail.send()
-            
-            return redirect('login' + f'?commad=verification&mail={email}')
+    
+            return redirect('login' + f'?command=verification&mail={email}')
     else:
         form = RegisterForm()
         
@@ -58,8 +60,36 @@ def register(request):
     
     return render(request,'accounts/register.html',context)
 
+
+def login(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        password = request.POST['password']
+        
+        user = authenticate(email=email, password=password)
+        
+        if user is not None:
+            auth_login(request, user)
+            # return redirect('home')
+        else:
+            return redirect('accounts:login')
+        
+    return render(request, 'accounts/login.html')
+    
+
 def activate(request, uidb64, token):
-    pass
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = Account._default_manager.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, Account.DoesNotExist):
+        user=None
+        
+    if user is not None and default_token_generator.check_token(user, token):
+        user.is_active = True
+        user.save()
+        return redirect('accounts:login')
+    else:
+        return redirect('accounts:register')
     
     
         
