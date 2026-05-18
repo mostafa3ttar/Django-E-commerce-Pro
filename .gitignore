@@ -11,7 +11,8 @@ ENV/
 db.sqlite3
 
 # Static & Media
-/static/
+staticfiles/
+static_root/
 /media/
 
 # Environment variables (Secrets)
