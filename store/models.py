@@ -1,0 +1,68 @@
+from django.db import models
+from django.utils.text import slugify
+import uuid
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=250)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    
+    
+    slug = models.SlugField(null=True, blank=True, unique=True, allow_unicode=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            original_slug = slugify(self.name, allow_unicode=True)
+            queryset = Category.objects.all()
+            
+            if not original_slug:
+                original_slug = "category"
+                
+            slug = original_slug
+            next_num = 1
+            
+            while queryset.filter(slug=slug).exists():
+                slug = f"{original_slug}-{next_num}"
+                next_num += 1
+                
+            self.slug = slug
+            
+        super(Category, self).save(*args, **kwargs)
+        
+    def __str__(self):
+        return self.name
+    
+    
+class Product(models.Model):
+    class Status:
+        AVAILABLE = 'AV', 'Available'
+        DRAFT = 'DF', 'Draft'
+    name = models.CharField(max_length=250)
+    image = models.ImageField(upload_to='products/images')
+    description = models.TextField(max_length=1500)
+    price = models.DecimalField(max_digits=5, decimal_places=2)
+    status = models.CharField(max_length=2, choices=Status.choices, default=Status.AVAILABLE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    
+    slug = models.SlugField(null=True, blank=True, unique=True, max_length=255, allow_unicode=True)
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            original_slug = slugify(self.name, allow_unicode=True)
+            
+            if not original_slug:
+                original_slug = "product"
+                
+            self.slug = f"{original_slug}-{str(uuid.uuid4())[:4]}"
+            
+        super(Product, self).save(*args, **kwargs)
+        
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        indexes = [
+            models.Index(fields=['id', 'slug']),
+            models.Index(fields=['name']),
+        ]

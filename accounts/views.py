@@ -70,9 +70,12 @@ def login(request):
         user = authenticate(email=email, password=password)
         
         if user is not None:
-            auth_login(request, user)
-            messages.success(request,'Logged in successfully.')
-            # return redirect('home')
+            if user.is_active:
+                auth_login(request, user)
+                messages.success(request,'Logged in successfully.')
+                return redirect('store:home')
+            else:
+                messages.error(request, 'Your account not active.')
         else:
             messages.error(request, 'Invalid email or password.')
             return redirect('accounts:login')
