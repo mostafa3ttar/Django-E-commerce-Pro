@@ -783,15 +783,33 @@ a:focus {
   color: inherit;
 }
 
-/*# sourceMappingURL=style.css.map */
-
 .message-container {
   width: 120%;
-  /* بتخليها أكبر من عرض الفورم */
   margin-left: -10%;
-  /* بتزقها برة الفورم من الشمال */
   margin-right: -10%;
-  /* بتزقها برة الفورم من اليمين */
   display: inline-block;
-  /* عشان تحترم الأبعاد الجديدة */
+}
+
+
+.img-box {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+  background-color: #f9f9f9;
+  padding: 15px;
+}
+
+.img-box img {
+  border-radius: 12px;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+
+.img-box:hover .add_cart_btn {
+  bottom: 0;
 }

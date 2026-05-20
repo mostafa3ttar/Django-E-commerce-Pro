@@ -6,6 +6,7 @@ django-crispy-forms==2.6
 django-environ==0.13.0
 dotenv==0.9.9
 pillow==12.2.0
+psycopg2-binary==2.9.12
 pycountry==26.2.16
 python-dotenv==1.2.2
 setuptools==82.0.1

@@ -35,14 +35,15 @@ class Category(models.Model):
     
     
 class Product(models.Model):
-    class Status:
+    class Status(models.TextChoices):
         AVAILABLE = 'AV', 'Available'
         DRAFT = 'DF', 'Draft'
     name = models.CharField(max_length=250)
-    image = models.ImageField(upload_to='products/images')
-    description = models.TextField(max_length=1500)
-    price = models.DecimalField(max_digits=5, decimal_places=2)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    price = models.DecimalField(max_digits=6, decimal_places=2)
+    image = models.ImageField(upload_to='products/images%y%m%d')
     status = models.CharField(max_length=2, choices=Status.choices, default=Status.AVAILABLE)
+    description = models.TextField(max_length=1500)
     created_at = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     
