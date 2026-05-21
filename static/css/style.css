@@ -790,7 +790,7 @@ a:focus {
   display: inline-block;
 }
 
-
+/* 
 .img-box {
   position: relative;
   width: 100%;
@@ -812,4 +812,4 @@ a:focus {
 
 .img-box:hover .add_cart_btn {
   bottom: 0;
-}
+} */

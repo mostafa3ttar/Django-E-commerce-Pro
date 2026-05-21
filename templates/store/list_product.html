@@ -122,7 +122,9 @@
                     </div>
                     <div class="detail-box">
                         <h5>
-                            {{product.name|title}}
+                            <a href="{{product.get_product_url}}">
+                                {{product.name|title}}
+                            </a>
                         </h5>
                         <div class="product_info">
                             <h5>
@@ -141,7 +143,7 @@
             </div>
             {% endfor %}
             <div class="btn_box">
-                <a href="" class="view_more-link">
+                <a href="#" class="view_more-link">
                     View More
                 </a>
             </div>

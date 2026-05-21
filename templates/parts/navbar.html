@@ -17,8 +17,8 @@
             </span>
           </a>
         </div>
-        <from class="search_form">
-          <input type="text" class="form-control" placeholder="Search here...">
+        <from class="search_form" method="get" action="{% url 'store:product_search' %}">
+          <input type="text" name="query" class="form-control" placeholder="Search here...">
           <button class="" type="submit">
             <i class="fa fa-search" aria-hidden="true"></i>
           </button>
@@ -66,9 +66,13 @@
                 Categories
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="category1.html">Category 1</a>
-                <a class="dropdown-item" href="category2.html">Category 2</a>
-                <a class="dropdown-item" href="category3.html">Category 3</a>
+
+                {% for x in categories %}
+
+                <a class="dropdwon-item" href="{{x.get_category_url}}">{{x.name}}</a>
+
+                {% endfor %}
+
               </div>
             </li>
 

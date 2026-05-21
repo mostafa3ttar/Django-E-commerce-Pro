@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 import uuid
+from django.urls import reverse
 
 
 class Category(models.Model):
@@ -33,13 +34,16 @@ class Category(models.Model):
     def __str__(self):
         return self.name
     
+    def get_category_url(self):
+        return reverse('store:product_by_category', args=[self.slug])
+    
     
 class Product(models.Model):
     class Status(models.TextChoices):
         AVAILABLE = 'AV', 'Available'
         DRAFT = 'DF', 'Draft'
     name = models.CharField(max_length=250)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
     price = models.DecimalField(max_digits=6, decimal_places=2)
     image = models.ImageField(upload_to='products/images%y%m%d')
     status = models.CharField(max_length=2, choices=Status.choices, default=Status.AVAILABLE)
@@ -61,6 +65,9 @@ class Product(models.Model):
         
     def __str__(self):
         return self.name
+    
+    def get_product_url(self):
+        return reverse('store:product_detail', args=[self.slug])
     
     class Meta:
         indexes = [
