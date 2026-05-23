@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     # my apps
     'accounts',
     'store',
+    'cart',
 ]
 
 CRISPY_TEMPLATE_PACK = "bootstrap5"
@@ -74,6 +75,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                
+                #My context
+                'store.context_processors.categories_to_all_pages',
             ],
         },
     },
@@ -160,3 +164,6 @@ from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
     messages.ERROR: "danger",
 }
+
+
+CART_SESSION_ID = 'cart'

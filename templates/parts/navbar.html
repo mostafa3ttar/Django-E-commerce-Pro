@@ -61,19 +61,19 @@
               <a class="nav-link" href="{% url 'store:home' %}">Home</a>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
                 Categories
               </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <!-- <li><span class="dropdown-item text-muted">Count: {{ categories|length }}</span></li> -->
                 {% for x in categories %}
-
-                <a class="dropdwon-item" href="{{x.get_category_url}}">{{x.name}}</a>
-
+                <li>
+                  <a class="dropdown-item" href="{{ x.get_category_url }}">{{ x.name }}</a>
+                </li>
                 {% endfor %}
-
-              </div>
+              </ul>
             </li>
 
             <li class="nav-item">

@@ -8,7 +8,7 @@ def home(request):
 
 def list_product(request, category_slug=None):
     category = None
-    categories = Category.objects.all()
+    # categories = Category.objects.all()
     products = Product.objects.filter(status=Product.Status.AVAILABLE)
     
     if category_slug:
@@ -17,7 +17,7 @@ def list_product(request, category_slug=None):
     
     context = {'products':products,
                'category':category,
-               'categories':categories
+            #    'categories':categories
                }
     return render(request, 'store/list_product.html', context)
 
