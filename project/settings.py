@@ -78,6 +78,7 @@ TEMPLATES = [
                 
                 #My context
                 'store.context_processors.categories_to_all_pages',
+                'cart.context_processors.cart',
             ],
         },
     },

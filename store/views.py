@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Product, Category
 from django.contrib.postgres.search import SearchVector, SearchRank, SearchQuery
+from cart.forms import CartAddProductForm
 
 
 def home(request):
@@ -16,14 +17,17 @@ def list_product(request, category_slug=None):
         products = products.filter(category=category)
     
     context = {'products':products,
-               'category':category,
+            'category':category,
             #    'categories':categories
-               }
+            }
     return render(request, 'store/list_product.html', context)
 
 def product_detail(request, product_slug):
     product = get_object_or_404(Product, slug=product_slug, status=Product.Status.AVAILABLE)
-    context = {'product':product}
+    cart_product_form = CartAddProductForm()
+    context = {'product':product,
+            'cart_product_form':cart_product_form
+            }
     return render(request, 'store/product_detail.html', context)
 
 
