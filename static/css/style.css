@@ -1,8 +1,19 @@
 body {
-  font-family: 'Poppins', sans-serif;
-  color: #0c0c0c;
-  background-color: #ffffff;
+  font-family: 'Alexandria', 'Inter', sans-serif;
+  font-weight: 300;
+  color: #0D1321;
+  background-color: #FFFFFF;
   overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+.product-card-modern .product-title,
+.brand-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 500;
+  letter-spacing: 1px;
 }
 
 .layout_padding {
@@ -109,10 +120,12 @@ a:focus {
 .header_section .header_top {
   padding: 15px 0;
   background-color: #434f78;
+  display: flex;
+  align-items: center;
 }
 
 .header_section .header_bottom {
-  padding: 10px 0;
+  padding: 15px 0;
 }
 
 .top_nav_container {
@@ -168,7 +181,7 @@ a:focus {
   border: none;
   outline: none;
   color: #ffffff;
-  background-color: #f3c93e;
+  background-color: #1D2D44;
   border-radius: 0 5px 5px 0;
 }
 
@@ -789,3 +802,84 @@ a:focus {
   margin-right: -10%;
   display: inline-block;
 }
+
+
+/* Start list_product */
+
+.category-btn {
+  border: 1px solid transparent;
+  background-color: transparent;
+  color: #1D2D44;
+  font-weight: 500;
+  padding: 8px 24px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.category-btn:hover {
+  background-color: #f8f9fa;
+  color: #0D1321;
+}
+
+.category-btn.active {
+  border: 1.5px solid #000000 !important;
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border-radius: 12px;
+  font-weight: bold;
+}
+
+.product-card-modern {
+  background: #ffffff;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid #ededed;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+
+.product-card-modern:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08) !important;
+  transform: scale(1.03);
+  filter: brightness(0.95);
+}
+
+.card-img-wrapper {
+  width: 100%;
+  height: 280px;
+  background-color: #fcfcfc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 12px;
+}
+
+.card-img-wrapper img {
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 14px;
+}
+
+.product-title-text {
+  color: #0D1321 !important;
+  font-size: 1.05rem;
+}
+
+.price-tag {
+  color: #748CAB !important;
+  font-size: 1.1rem;
+}
+
+.product-card-modern img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: center;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+/* End list_product */

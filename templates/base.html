@@ -4,11 +4,11 @@
 
 <body>
     {% include "parts/navbar.html" %}
-    <div class="container my-4">
+    {% comment %} <div class="container my-4"> {% endcomment %}
         {% block content %}
 
         {% endblock content %}
-    </div>
+    {% comment %} </div> {% endcomment %}
     {% include "parts/footer.html" %}
 </body>
 

@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404
 from .models import Product, Category
 from django.contrib.postgres.search import SearchVector, SearchRank, SearchQuery
 from cart.forms import CartAddProductForm
+from django.http import JsonResponse
+from django.template.loader import render_to_string
 
 
 def home(request):
@@ -9,16 +11,34 @@ def home(request):
 
 def list_product(request, category_slug=None):
     category = None
-    # categories = Category.objects.all()
-    products = Product.objects.filter(status=Product.Status.AVAILABLE)
-    
-    if category_slug:
-        category = get_object_or_404(Category, slug=category_slug)
-        products = products.filter(category=category)
-    
+    selected_slug = category_slug or request.GET.get('category')
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        if selected_slug == 'best_seller':
+            products = Product.objects.filter(status=Product.Status.AVAILABLE, is_best_seller=True)
+            
+        elif selected_slug and selected_slug != 'all':
+            category = get_object_or_404(Category, slug=selected_slug)
+            products = Product.objects.filter(status=Product.Status.AVAILABLE, category=category)
+            
+        else:
+            products = Product.objects.filter(status=Product.Status.AVAILABLE)
+            
+    else:
+        if selected_slug == 'best_seller':
+            products = Product.objects.filter(status=Product.Status.AVAILABLE, is_best_seller=True)
+            
+        elif selected_slug:
+            category = get_object_or_404(Category, slug=selected_slug)
+            products = Product.objects.filter(status=Product.Status.AVAILABLE, category=category)
+            
+        else:
+            products = Product.objects.filter(status=Product.Status.AVAILABLE)
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        html = render_to_string('store/product_cards.html', {'products': products}, request=request)
+        return JsonResponse({'html': html})
     context = {'products':products,
             'category':category,
-            #    'categories':categories
             }
     return render(request, 'store/list_product.html', context)
 

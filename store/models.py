@@ -50,6 +50,7 @@ class Product(models.Model):
     description = models.TextField(max_length=1500)
     created_at = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    is_best_seller = models.BooleanField(default=False, verbose_name="Best Seller")
     
     slug = models.SlugField(null=True, blank=True, unique=True, max_length=255, allow_unicode=True)
     def save(self, *args, **kwargs):

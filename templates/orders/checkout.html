@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}
+Order
+{% endblock title %}
+
+
+{% block content %}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-4 bg-light p-3 w-100">
+            <div class="h4 pb-2 my-4 d-inline-block"
+                style="border-bottom: 2px solid #748CAB !important; color: #1D2D44 !important;">
+                Your order:
+                <ul>
+                    {% for item in cart %}
+                    <li>
+                        {{item.quantity}}x {{item.product.name}},
+                        <span>
+                            ${{item.total_price}}
+                        </span>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% if success %}
+                <div class="alert alert-success" role="alert">
+                    <span>Your order has been successfully.</span>
+                    <span><b>Order-ID: </b>{{order.order_id}}</span>
+                </div>
+                {% else %}
+                <p>Total: ${{cart.get_total_price}}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if not success %}
+<h4 class="text-center mt-4 bg-light p-3 w-100" style="color: #1D2D44">Apply this form to complete your order.</h4>
+{% endif %}
+<div class="container">
+    <div class="row justify-content-center my-4">
+        <form method="post">
+            {% csrf_token %}
+            {{form|crispy}}
+            {% if not success %}
+            <p><input type="submit" value="Confirm Order" class="btn btn-primary"></p>
+            {% endif %}
+        </form>
+    </div>
+</div>
+
+{% endblock content %}
