@@ -3,6 +3,7 @@ from django.views.decorators.http import require_POST
 from store.models import Product
 from .cart import Cart
 from .forms import CartAddProductForm
+from django.http import JsonResponse
 
 
 
@@ -10,12 +11,30 @@ from .forms import CartAddProductForm
 def cart_add(request, product_id):
     cart = Cart(request)
     product = get_object_or_404(Product, id=product_id, status=Product.Status.AVAILABLE)
+    
     form = CartAddProductForm(request.POST)
     
     if form.is_valid():
         cd = form.cleaned_data
-        cart.add(product=product, quantity=cd['quantity'], override_quantity=['override'])
+        cart.add(product=product, quantity=cd['quantity'], override_quantity=cd['override'])
+        
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            total_items = len(cart) 
+            
+            return JsonResponse({
+                'status': 'success',
+                'total_items': total_items,
+                'product_name': product.name
+            })
+        
         return redirect('cart:cart_detail')
+        
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return JsonResponse({'status': 'error', 'errors': form.errors}, status=400)
+        
+    return redirect('cart:cart_detail')
+    
+    
     
     
 @require_POST

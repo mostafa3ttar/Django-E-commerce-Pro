@@ -4,6 +4,7 @@ from .forms import OrderCreatedForm
 from cart.cart import Cart
 from django.core.mail import send_mail
 from django.conf import settings
+from django.utils import timezone
 
 
 
@@ -20,9 +21,10 @@ def order_create(request):
             for item in cart:
                 OrderItem.objects.create(order=order, product=item['product'], price=item['price'], quantity=item['quantity'])
             cart.clear()
+            local_order_time = timezone.localtime(order.created_at)
             subject = 'Order Confirmation'
             message = f"Your order has been created successfully.\n"
-            message += f"On {order.created_at.strftime('%a, %d %b %Y at %I:%M %p')}\n\n"
+            message += f"On {local_order_time.strftime('%a, %d %b %Y at %I:%M %p')}\n\n"
             message += f"--- Order Confirmation Details ---\n"
             message += f"Customer Name: {form.cleaned_data['first_name'].title()}\n"
             message += f"Email: {form.cleaned_data['email']}\n"

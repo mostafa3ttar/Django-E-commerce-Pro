@@ -1,5 +1,9 @@
 {% load static %}
 
+<div class="navLeftFooter nav-sprite-v1" id="navFooter">
+  <button id="navBackToTop" class="navFooterBackToTopText" aria-label="Back to top">
+    <div class="navFooterBackToTop">Back to top</div>
+  </button>
 
   <!-- info section -->
   <section class="info_section ">
@@ -19,12 +23,16 @@
               Address
             </p>
             <p>
-              <i class="fa fa-phone" aria-hidden="true"></i>
-              +01 1234567890
+              <a href="https://wa.me/201100103523">
+                <i class="fab fa-whatsapp" style="color: #FFFFFF;" aria-hidden="true"></i>
+                +20 1100103523
+              </a>
             </p>
             <p>
-              <i class="fa fa-envelope" aria-hidden="true"></i>
-              demo@gmail.com
+              <a href="https://mail.google.com/mail/?view=cm&fs=1&to=bonnyscent@gmail.com">
+                <i class="fa fa-envelope" style="color: #FFFFFF" aria-hidden="true"></i>
+                bonnyscent@gmail.com
+              </a>
             </p>
           </div>
         </div>
@@ -34,7 +42,8 @@
               Information
             </h5>
             <p>
-              Eligendi sunt, provident, debitis nemo, facilis cupiditate velit libero dolorum aperiam enim nulla iste maxime corrupti ad illo libero minus.
+              Eligendi sunt, provident, debitis nemo, facilis cupiditate velit libero dolorum aperiam enim nulla iste
+              maxime corrupti ad illo libero minus.
             </p>
           </div>
         </div>
@@ -105,52 +114,6 @@
 
   <!-- end info_section -->
 
-
-<!-- Start Delete Confirmation Modal -->
-
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true" aria-labelledby="deleteModalLabel">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow-lg rounded-4">
-            
-            <div class="modal-header border-0 pb-0">
-                <h5 class="modal-title fw-bold text-dark" id="deleteModalLabel">Confirm Deletion</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <div class="modal-body text-center py-4">
-                <div class="mb-3">
-                    <i class="bi bi-exclamation-octagon text-danger" style="font-size: 3rem;"></i>
-                </div>
-                
-                <h5 class="fw-bold mb-3">Are you sure?</h5>
-                
-                <p class="mb-2">
-                    You are about to delete: <span id="recordName" class="fw-bold text-danger"></span>
-                </p>
-
-                <p class="text-muted small mb-0">
-                    You won't be able to recover this data later.
-                </p>
-            </div>
-
-            <div class="modal-footer border-0 d-flex justify-content-center pb-4">
-                <form id="deleteForm" method="POST" class="d-inline m-0">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger px-4 py-2 fw-bold rounded-pill shadow-sm me-2">
-                        Yes, Delete Record
-                    </button>
-                </form>
-                
-                <button type="button" class="btn btn-light px-4 py-2 fw-bold rounded-pill shadow-sm border" data-bs-dismiss="modal">
-                    Keep it
-                </button>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-        <!-- End Delete Confirmation Modal -->
 
 
   <!-- jQery -->

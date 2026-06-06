@@ -13,7 +13,12 @@ $(function () {
 function getYear() {
     var currentDate = new Date();
     var currentYear = currentDate.getFullYear();
-    document.querySelector("#displayYear").innerHTML = currentYear;
+
+    var yearElement = document.querySelector("#displayYear");
+
+    if (yearElement) {
+        yearElement.innerHTML = currentYear;
+    }
 }
 
 getYear();

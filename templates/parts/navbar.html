@@ -3,52 +3,63 @@
   <div class="header_top">
     <div class="container-fluid">
       <div class="top_nav_container">
-        <div class="contact_nav">
-          <a href="">
-            <i class="fa fa-phone" aria-hidden="true"></i>
-            <span>
-              Call : +01 123455678990
-            </span>
-          </a>
-          <a href="">
-            <i class="fa fa-envelope" aria-hidden="true"></i>
-            <span>
-              Email : demo@gmail.com
-            </span>
-          </a>
-        </div>
-        <from class="search_form" method="get" action="{% url 'store:product_search' %}">
-          <input type="text" name="query" class="form-control" placeholder="Search here...">
-          <button class="" type="submit">
-            <i class="fa fa-search" aria-hidden="true"></i>
+        <a class="navbar-brand" href="{% url 'store:home' %}">
+          <span>
+            Bonny Fragrance
+          </span>
+        </a>
+        <from class="search-form-modern d-flex" method="get" action="{% url 'store:list_product' %}"
+          style="position: relative; width: 100%; max-width: 400px; margin: 0 auto;">
+          <input type="text" name="query" value="{{ query|default:'' }}" class="form-control"
+            placeholder="Search here..." aria-label="Search" autocomplete="off"
+            style="border-radius: 4px 0 0 4px; border: none; padding: 10px 15px;">
+          <button type="submit"
+            style="background: #0D1321; color: #F0EBD8; border: none; padding: 0 15px; border-radius: 0 4px 4px 0;">
+            <i class="fa fa-search"></i>
           </button>
+          <div id="search-suggestions" class="search-suggestions-dropdown shadow-lg"
+            style="display: none; position: absolute; top: 100% ; left: 0; width: 100%; background: #FFFFFF; z-index: 9999; border-radius: 0 0 8px 8px; border-top: 1px solid #748CAB; overflow: hidden;">
+          </div>
         </from>
-        <div class="user_option_box">
+        <div class="user_option_box me-3">
           <a href="{% url 'accounts:register' %}" class="account-link">
             <i class="fa fa-user" aria-hidden="true"></i>
             <span>
               My Account
             </span>
           </a>
-          <a href="{% url 'cart:cart_detail' %}" class="cart-link">
-            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-            <span>
+        </div>
+
+        <div class="cart-dropdown-wrapper"
+          style="position: relative; display: flex; align-items: center; height: 100%;">
+
+          <a href="{% url 'cart:cart_detail' %}" class="nav-cart-trigger d-flex align-items-center"
+            style="text-decoration: none; color: #F0EBD8; padding: 0 5px; height: 100%;">
+
+            <div class="cart-icon-container"
+              style="position: relative; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px;">
+              <i class="fa-solid fa-cart-shopping" style="color: #F0EBD8; font-size: 1.4rem; line-height: 1;"></i>
+
+              <span id="cart-count-badge" class="amazon-cart-badge">
+                {% with total_items=cart|length %}
+                {% if total_items > 0 %}
+                {{ total_items }}
+                {% else %}
+                {{0}}
+                {% endif %}
+                {% endwith %}
+              </span>
+            </div>
+
+            <span class="cart-text-label"
+              style="font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14px; margin-left: 4px; line-height: 1;">
               Cart
             </span>
-            {% with total_items=cart|length %}
-            {% if total_items > 0 %}
-            <small> <a href="{% url 'cart:cart_detail' %}">
-                {{total_items}} items
-                <!-- {{cart.get_total_price}} -->
-              </a> </small>
-
-            {% else %}
-            <small>empty.</small>
-
-            {% endif %}
-            {% endwith %}
           </a>
+
+          <div id="mini-cart-menu" ...> ... </div>
         </div>
+
       </div>
 
     </div>
@@ -56,11 +67,24 @@
   <div class="header_bottom">
     <div class="container-fluid">
       <nav class="navbar navbar-expand-lg custom_nav-container ">
-        <a class="navbar-brand" href="{% url 'store:home' %}">
-          <span>
-            BONNY Fragrance
-          </span>
-        </a>
+        <div class="contact_nav">
+          <a href="https://wa.me/201100103523" target="_blank" class="top-bar-link d-inline-flex align-items-center"
+            style="color: #F0EBD8; text-decoration: none; font-size: 13px; font-weight: 500; line-height: 1;">
+            <i class="fab fa-whatsapp me-1"
+              style="color: #25D366; font-size: 14px; margin-right: 6px; display: inline-block; line-height: 1;"></i>
+            <span>
+              WhatsApp Us
+            </span>
+          </a>
+          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=bonnyscent@gmail.com"
+            class="top-bar-link d-inline-flex align-items-center"
+            style="color: #F0EBD8; text-decoration: none; font-size: 13px; font-weight: 500; line-height: 1;">
+            <i class="fa-regular fa-envelope me-1"
+              style="color: #748CAB; font-size: 13px; margin-right: 6px; display: inline-block; line-height: 1;"></i>
+            <span>bonnyscent@gmail.com</span>
+          </a>
+        </div>
+
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
