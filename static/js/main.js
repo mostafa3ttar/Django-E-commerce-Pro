@@ -112,6 +112,36 @@ document.addEventListener('DOMContentLoaded', function () {
             const form = this.closest('form');
             if (!form) return;
 
+            const productCard = this.closest('.card') || this.closest('.row');
+            const productImg = productCard ? productCard.querySelector('img') : null;
+            const cartBadge = document.getElementById('cart-count-badge');
+
+            if (productImg && cartBadge) {
+                const imgRect = productImg.getBoundingClientRect();
+                const cartRect = cartBadge.getBoundingClientRect();
+
+                const cloneImg = productImg.cloneNode();
+                cloneImg.classList.add('flying-product-img');
+                cloneImg.style.top = `${imgRect.top}px`;
+                cloneImg.style.left = `${imgRect.left}px`;
+                cloneImg.style.width = `${imgRect.width}px`;
+                cloneImg.style.height = `${imgRect.height}px`;
+
+                document.body.appendChild(cloneImg);
+
+                requestAnimationFrame(() => {
+                    cloneImg.style.top = `${cartRect.top}px`;
+                    cloneImg.style.left = `${cartRect.left}px`;
+                    cloneImg.style.width = '20px';
+                    cloneImg.style.height = '20px';
+                    cloneImg.style.opacity = '0.1';
+                });
+
+                setTimeout(() => {
+                    cloneImg.remove();
+                }, 800);
+            }
+
             const url = form.getAttribute('action');
             const formData = new FormData(form);
 
@@ -128,9 +158,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
                 .then(data => {
                     if (data.status === 'success') {
-                        const badge = document.getElementById('cart-count-badge');
-                        if (badge) {
-                            badge.innerText = data.total_items;
+                        if (cartBadge) {
+                            cartBadge.innerText = data.total_items;
+
+                            cartBadge.classList.add('pulse-animation');
+                            setTimeout(() => {
+                                cartBadge.classList.remove('pulse-animation');
+                            }, 1000);
                         }
 
                         const miniCart = document.getElementById('mini-cart-menu');

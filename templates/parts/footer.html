@@ -1,126 +1,123 @@
 {% load static %}
 
-<div class="navLeftFooter nav-sprite-v1" id="navFooter">
-  <button id="navBackToTop" class="navFooterBackToTopText" aria-label="Back to top">
-    <div class="navFooterBackToTop">Back to top</div>
-  </button>
-
-  <!-- info section -->
-  <section class="info_section ">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-3">
-          <div class="info_contact">
-            <h5>
-              <a href="" class="navbar-brand">
-                <span>
-                  Minics
-                </span>
-              </a>
-            </h5>
-            <p>
-              <i class="fa fa-map-marker" aria-hidden="true"></i>
-              Address
-            </p>
-            <p>
-              <a href="https://wa.me/201100103523">
-                <i class="fab fa-whatsapp" style="color: #FFFFFF;" aria-hidden="true"></i>
-                +20 1100103523
-              </a>
-            </p>
-            <p>
-              <a href="https://mail.google.com/mail/?view=cm&fs=1&to=bonnyscent@gmail.com">
-                <i class="fa fa-envelope" style="color: #FFFFFF" aria-hidden="true"></i>
-                bonnyscent@gmail.com
-              </a>
-            </p>
-          </div>
+<!-- info section -->
+<section class="info_section ">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="info_contact">
+          <h5>
+            <a href="" class="navbar-brand">
+              <span>
+                Minics
+              </span>
+            </a>
+          </h5>
+          <p style="color: #748CAB;">
+            <i class="fa fa-map-marker" aria-hidden="true" style="color: #FFFFFF;"></i>
+            Egypt
+          </p>
+          <p>
+            <a href="https://wa.me/201100103523">
+              <i class="bi bi-telephone" style="color: #FFFFFF;" aria-hidden="true"></i>
+              +20 1100103523
+            </a>
+          </p>
+          <p>
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=bonnyscent@gmail.com">
+              <i class="fa fa-envelope" style="color: #FFFFFF" aria-hidden="true"></i>
+              bonnyscent@gmail.com
+            </a>
+          </p>
         </div>
-        <div class="col-md-3">
-          <div class="info_info">
-            <h5>
-              Information
-            </h5>
-            <p>
-              Eligendi sunt, provident, debitis nemo, facilis cupiditate velit libero dolorum aperiam enim nulla iste
-              maxime corrupti ad illo libero minus.
-            </p>
-          </div>
+      </div>
+      <div class="col-md-3">
+        <div class="info_info">
+          <h5>
+            Information
+          </h5>
+          <p>
+            Eligendi sunt, provident, debitis nemo, facilis cupiditate velit libero dolorum aperiam enim nulla iste
+            maxime corrupti ad illo libero minus.
+          </p>
         </div>
-        <div class="col-md-3">
-          <div class="info_links">
-            <h5>
-              Useful Link
-            </h5>
-            <ul>
-              <li>
-                <a href="index.html">
-                  Home
-                </a>
-              </li>
-              <li>
-                <a href="about.html">
-                  About
-                </a>
-              </li>
-              <li>
-                <a href="product.html">
-                  Products
-                </a>
-              </li>
-              <li>
-                <a href="why.html">
-                  Why Us
-                </a>
-              </li>
-              <li>
-                <a href="testimonial.html">
-                  Testimonial
-                </a>
-              </li>
-            </ul>
-          </div>
+      </div>
+      <div class="col-md-3">
+        <div class="info_links">
+          <h5>
+            Useful Link
+          </h5>
+          <ul>
+            <li>
+              <a href="{% url 'store:home' %}">
+                Home
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'store:home' %}#about-section">
+                About
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'store:list_product' %}">
+                Products
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'store:home' %}#why-us">
+                Why Us
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'store:home' %}#testimonial">
+                Testimonial
+              </a>
+            </li>
+          </ul>
         </div>
-        <div class="col-md-3">
-          <div class="info_form ">
-            <h5>
-              Newsletter
-            </h5>
-            <form action="">
-              <input type="email" placeholder="Enter your email">
-              <button>
-                Subscribe
-              </button>
-            </form>
-            <div class="social_box">
-              <a href="">
-                <i class="fa fa-facebook" aria-hidden="true"></i>
-              </a>
-              <a href="">
-                <i class="fa fa-twitter" aria-hidden="true"></i>
-              </a>
-              <a href="">
-                <i class="fa fa-instagram" aria-hidden="true"></i>
-              </a>
-              <a href="">
-                <i class="fa fa-youtube" aria-hidden="true"></i>
-              </a>
-            </div>
+      </div>
+      <div class="col-md-3">
+        <div class="info_form ">
+          <h5>
+            Newsletter
+          </h5>
+          <form action="">
+            <input type="email" placeholder="Enter your email">
+            <button>
+              Subscribe
+            </button>
+          </form>
+          <div class="social_box">
+            <a href="https://www.facebook.com/Bonnyfragrance" target="_blank" class="facebook-link-modern"
+              aria-label="Facebook">
+              <i class="fa fa-facebook-f" aria-hidden="true"></i>
+            </a>
+            <a href="https://www.instagram.com/bonny.fragrance" target="_blank" class="instagram-link-modern"
+              aria-label="Instagram">
+              <i class="fab fa-instagram" aria-hidden="true"></i>
+            </a>
+            <a href="https://wa.me/201100103523" target="_blank" class="whatsapp-link-modern" aria-label="WhatsApp">
+              <i class="fa fa-whatsapp" aria-hidden="true"></i>
+            </a>
+            <a href="" class="youtube-link-modern" aria-label="Youtube">
+              <i class="fa fa-youtube" aria-hidden="true"></i>
+            </a>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- end info_section -->
+<!-- end info_section -->
 
 
 
-  <!-- jQery -->
-  <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
-  <!-- bootstrap js -->
-  <script src="{% static 'js/bootstrap.js' %}"></script>
-  <!-- custom js -->
-  <script src="{% static 'js/custom.js' %}"></script>
-  <!-- main js -->
-  <script src="{% static 'js/main.js' %}"></script>
+<!-- jQery -->
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+<!-- bootstrap js -->
+<script src="{% static 'js/bootstrap.js' %}"></script>
+<!-- custom js -->
+<script src="{% static 'js/custom.js' %}"></script>
+<!-- main js -->
+<script src="{% static 'js/main.js' %}"></script>

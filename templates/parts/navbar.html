@@ -3,27 +3,26 @@
   <div class="header_top">
     <div class="container-fluid">
       <div class="top_nav_container">
-        <a class="navbar-brand" href="{% url 'store:home' %}">
-          <span>
-            Bonny Fragrance
-          </span>
+        <a href="/" class="brand-logo-modern">
+          <span class="brand-main">Bonny</span><span class="brand-sub">Fragrance</span>
         </a>
-        <from class="search-form-modern d-flex" method="get" action="{% url 'store:list_product' %}"
-          style="position: relative; width: 100%; max-width: 400px; margin: 0 auto;">
-          <input type="text" name="query" value="{{ query|default:'' }}" class="form-control"
-            placeholder="Search here..." aria-label="Search" autocomplete="off"
-            style="border-radius: 4px 0 0 4px; border: none; padding: 10px 15px;">
-          <button type="submit"
-            style="background: #0D1321; color: #F0EBD8; border: none; padding: 0 15px; border-radius: 0 4px 4px 0;">
-            <i class="fa fa-search"></i>
+
+        <form class="search-form-modern" method="get" action="{% url 'store:list_product' %}">
+
+          <input type="text" name="query" value="{{ query|default:'' }}" class="search-input-modern"
+            placeholder="Search Bonny..." aria-label="Search" autocomplete="off">
+
+          <button type="submit" class="search-button-modern" aria-label="Submit Search">
+            <i class="fa-solid fa-magnifying-glass"></i>
           </button>
-          <div id="search-suggestions" class="search-suggestions-dropdown shadow-lg"
-            style="display: none; position: absolute; top: 100% ; left: 0; width: 100%; background: #FFFFFF; z-index: 9999; border-radius: 0 0 8px 8px; border-top: 1px solid #748CAB; overflow: hidden;">
-          </div>
-        </from>
+
+          <div id="search-suggestions" class="search-suggestions-dropdown shadow-lg"></div>
+
+        </form>
+
         <div class="user_option_box me-3">
           <a href="{% url 'accounts:register' %}" class="account-link">
-            <i class="fa fa-user" aria-hidden="true"></i>
+            <i class="fa fa-user" style="color: #748CAB;" aria-hidden="true"></i>
             <span>
               My Account
             </span>
@@ -93,7 +92,7 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ">
-            <li class="nav-item {% if request.path == '/' %}active{% endif %}"">
+            <li class="nav-item {% if request.path == '/' %}active{% endif %}">
               <a class=" nav-link" href="{% url 'store:home' %}">Home</a>
             </li>
             <li
@@ -119,13 +118,13 @@
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="#about"> About</a>
+              <a class="nav-link" href="{% url 'store:home' %}#about-section"> About</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#why_us">Why Us</a>
+              <a class="nav-link" href="{% url 'store:home' %}#why-us">Why Us</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#testimonial">Testimonial</a>
+              <a class="nav-link" href="{% url 'store:home' %}#testimonial">Testimonial</a>
             </li>
 
           </ul>

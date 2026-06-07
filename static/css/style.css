@@ -1,6 +1,7 @@
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
   font-weight: 400;
+  font-style: normal !important;
   color: #0D1321;
   background-color: #FFFFFF;
   overflow-x: hidden;
@@ -13,9 +14,10 @@ h3,
 .product-card-modern .product-title,
 .brand-logo,
 .brand-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 500;
-  letter-spacing: 0.03em;
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 600;
+  font-style: normal !important;
+  letter-spacing: -0.01em;
 }
 
 input,
@@ -24,6 +26,7 @@ button,
 .search-suggestions-dropdown a {
   font-family: 'Inter', sans-serif !important;
   font-weight: 500;
+  font-style: normal !important;
 }
 
 .search-form-modern input,
@@ -32,9 +35,13 @@ button,
 #search-suggestions,
 #search-suggestions a,
 #search-suggestions span,
-#search-suggestions small {
+#search-suggestions small,
+.amazon-back-to-top {
   font-family: 'Inter', sans-serif !important;
+  font-style: normal !important;
 }
+
+
 
 .layout_padding {
   padding: 90px 0;
@@ -149,6 +156,45 @@ a:focus {
   background-color: #1D2D44;
 }
 
+/* Start brand logo */
+
+.brand-logo-modern {
+  font-family: 'Inter', sans-serif !important;
+  text-decoration: none !important;
+  display: inline-flex;
+  align-items: center;
+  font-style: normal !important;
+  font-size: 24px;
+  /* مقاس مثالي ومريح للعين في الهيدر */
+  letter-spacing: -0.02em;
+  /* تضييق احترافي جداً يخلي الكلمة صبّة واحدة */
+}
+
+/* 🔥 الكلمة الأولى (Bonny): عريضة وقوية */
+.brand-logo-modern .brand-main {
+  color: #FFFFFF !important;
+  /* لون أبيض صريح وقوي */
+  font-weight: 700 !important;
+  /* عريض جداً Bold */
+}
+
+/* 🌿 الكلمة الثانية (Fragrance): رفيعة وناعمة */
+.brand-logo-modern .brand-sub {
+  color: #748CAB !important;
+  /* واخدة لون البراند المساعد عشان تكسر حدة الأبيض */
+  font-weight: 300 !important;
+  /* خط رفيع ونظيف Light */
+  margin-left: 2px;
+  /* مسافة خفيفة بالملي تفصلها عن الاسم الأول */
+}
+
+.brand-logo-modern:hover .brand-main {
+  color: #F0EBD8 !important;
+  transition: color 0.2s ease-in-out;
+}
+
+/* End brand logo */
+
 /* Start Contact with us */
 
 .header_bottom i {
@@ -198,18 +244,35 @@ a:focus {
 }
 
 .contact_nav a i {
-  color: #f3c93e;
+  color: #ffffff;
 }
 
 .contact_nav a:hover {
-  color: #f3c93e;
+  color: #748CAB !important;
 }
 
+/* Start search */
+
 .search-form-modern {
-  display: -webkit-box;
-  display: -ms-flexbox;
+  position: relative;
   display: flex;
-  margin: 0 15px;
+  flex-grow: 1;
+  max-width: 650px;
+  margin: 0 30px;
+  height: 40px;
+}
+
+.search-input-modern {
+  width: 100%;
+  height: 100%;
+  border: none !important;
+  outline: none !important;
+  background-color: #FFFFFF !important;
+  color: #0D1321 !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 14px;
+  padding: 0 10px;
+  border-radius: 4px 0 0 4px !important;
 }
 
 .search-form-modern .form-control {
@@ -219,17 +282,39 @@ a:focus {
   min-width: unset;
 }
 
-.search-form-modern button {
-  width: 45px;
-  min-width: 45px;
-  height: 40px;
-  padding: 0;
-  border: none;
-  outline: none;
-  color: #ffffff;
-  background-color: #1D2D44;
-  border-radius: 0 5px 5px 0;
+.search-button-modern {
+  height: 100%;
+  background-color: #748CAB;
+  color: #F0EBD8;
+  border: none !important;
+  outline: none !important;
+  padding: 0 20px;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 0 4px 4px 0 !important;
+  transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
 }
+
+.search-button-modern:hover {
+  background-color: #5B7293;
+  color: #FFFFFF;
+}
+
+.search-suggestions-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #FFFFFF;
+  z-index: 9999;
+  border-radius: 0 0 6px 6px;
+  border-top: 1px solid rgba(116, 140, 171, 0.2);
+  overflow: hidden;
+  margin-top: 2px;
+}
+
+/* End search */
 
 .user_option_box {
   display: -webkit-box;
@@ -986,5 +1071,122 @@ a:focus {
   align-self: center;
 }
 
-
 /* End cart view */
+
+/* Start cart */
+
+@keyframes cartPulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.4);
+    background-color: #F0EBD8;
+    color: #0D1321;
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.pulse-animation {
+  animation: cartPulse 0.4s ease-in-out;
+}
+
+.flying-product-img {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  opacity: 0.8;
+}
+
+/* End cart */
+
+
+
+/* Start back to up */
+
+html {
+  scroll-behavior: smooth;
+}
+
+.amazon-back-to-top {
+  display: block;
+  width: 100%;
+  background-color: #748CAB;
+  color: #0D1321;
+  text-align: center;
+  padding: 15px 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-style: normal !important;
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  text-decoration: none !important;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  border-bottom: 1px solid rgba(116, 140, 171, 0.1);
+}
+
+.amazon-back-to-top:hover {
+  background-color: #748CAB;
+  color: #F0EBD8;
+}
+
+/* End back to up */
+
+
+/* Start icons */
+
+.social_box a {
+  color: #748CAB !important;
+  font-size: 18px;
+  text-decoration: none !important;
+  display: inline-block;
+  transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.social_box a:hover {
+  color: #F0EBD8 !important;
+  transform: translateY(-2px);
+}
+
+/* End icons */
+
+/* Start info-links */
+
+.info_links a {
+  color: #748CAB !important;
+  font-size: 18px;
+  text-decoration: none !important;
+  display: inline-block;
+  transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.info_links a:hover {
+  color: #F0EBD8 !important;
+  transform: translateY(-2px);
+}
+
+/* End info-links */
+
+/* Start info-contacts */
+
+.info_contact a {
+  color: #748CAB !important;
+  font-size: 18px;
+  text-decoration: none !important;
+  display: inline-block;
+  transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.info_contact a:hover {
+  color: #F0EBD8 !important;
+  transform: translateY(-2px);
+}
+
+/* End info-contacts */
