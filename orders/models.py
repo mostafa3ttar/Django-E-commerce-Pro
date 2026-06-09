@@ -33,6 +33,9 @@ class Order(models.Model):
     def __str__(self):
         return f'Order ID:{self.order_id}'
     
+    def get_full_name(self) -> str:
+        return self.first_name +' '+ self.last_name
+    
     def save(self, *args, **kwargs):
         if not self.order_id:
             unique_id = generate_order_id()

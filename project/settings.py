@@ -150,14 +150,19 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'accounts.Account'
 
 # SMTP configration Email
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST='smtp.gmail.com'
-EMAIL_PORT=587
-EMAIL_USE_TLS=True
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 EMAIL_HOST_USER=os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD=os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL=os.getenv('DEFAULT_FROM_EMAIL')
+
+# Celery
+CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672//'   #for rappitmq
+# CELERY_BROKER_URL = 'redis://localhost:6379/0'              #for redis
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
 
 
 
