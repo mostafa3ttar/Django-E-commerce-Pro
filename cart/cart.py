@@ -55,7 +55,11 @@ class Cart:
         
         for product in products:
             cart[str(product.id)]['product'] = product
-        
+            
+        for db_id in list(self.cart.keys()):
+            if str(db_id) not in [str(p.id) for p in products]:
+                del self.cart[db_id]
+                self.save()
         for item in cart.values():
             item['price'] = Decimal(item['price'])
             item['total_price'] = item['price'] * item['quantity']

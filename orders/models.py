@@ -12,6 +12,13 @@ def generate_order_id(length=8):
 
 
 class Order(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Pending Payment (في انتظار الدفع)'),
+        ('under_review', 'Under Review (قيد المراجعة)'),
+        ('paid', 'Paid (تم الدفع والتأكيد)'),
+        ('shipped', 'Shipped (تم الشحن)'),
+        ('canceled', 'Canceled (ملغي)'),
+    ]
     order_id = models.CharField(max_length=8, default=generate_order_id, unique=True)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
@@ -21,13 +28,18 @@ class Order(models.Model):
     city = models.CharField(max_length=100)
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='pending'
+    )
     paid = models.BooleanField(default=False)
     
     
     class Meta:
         ordering = ['-created_at']
         indexes = [
-            models.Index(fields=['-created_at'])
+            models.Index(fields=['-created_at'])     #to make filtering more speed 
         ]
         
     def __str__(self):
@@ -41,11 +53,21 @@ class Order(models.Model):
             unique_id = generate_order_id()
             while Order.objects.filter(order_id=unique_id).exists():
                 unique_id = generate_order_id()
-            self.order_id = unique_id
+            self.order_id = unique_id                                #to save unique_id in DB
+
+        is_new = self.pk is None
+
+        if not is_new:
+            try:
+                old_order = Order.objects.get(pk=self.pk)
+                if old_order.status != 'paid' and self.status == 'paid':
+                    self.paid = True
+            except Order.DoesNotExist:
+                pass
+                
         super().save(*args, **kwargs)
-        
-    def get_total_cost(self):
-        return sum(item.get_cost() for item in self.items.all())
+
+        OrderPay.objects.get_or_create(order=self)
 
 
 
@@ -59,3 +81,34 @@ class OrderItem(models.Model):
         return str(self.id)
     def get_cost(self):
         return self.price * self.quantity
+    
+    
+class OrderPay(models.Model):
+    order = models.OneToOneField(Order, on_delete=models.CASCADE, related_name='payment')
+    pay_phone = models.CharField(max_length=11)
+    pay_image = models.ImageField(upload_to='Vodafone_cash/images%y%m%d')
+    created_at = models.DateTimeField(auto_now_add=True)
+    paid = models.BooleanField(default=False, verbose_name="Paid (مدفوع؟)")
+    class Meta:
+        ordering = ['-created_at']
+        
+    def __str__(self) -> str:
+        return f'Payment for order ID: {self.order.order_id}'
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        
+        if self.order:
+            new_status = 'paid' if self.paid else 'under_review'
+            
+            Order.objects.filter(pk=self.order.pk).update(           #to update Order data(pay) once edit OrderPay data
+                paid=self.paid,
+                status=new_status
+            )
+            
+            if self.paid:
+                from .tasks import send_payment_confirmation_email
+                send_payment_confirmation_email.delay(self.order.order_id)     #celery
+
+
+

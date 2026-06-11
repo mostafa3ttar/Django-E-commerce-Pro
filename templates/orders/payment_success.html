@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container" style="margin: 50px auto 120px;">
+    <div class="alert alert-success" role="alert">
+        <h1>Payment successful</h1>
+        Order <b> {{order.order_id}} </b> has been paid successfully.
+    </div>
+</div>
+{% endblock content %}
