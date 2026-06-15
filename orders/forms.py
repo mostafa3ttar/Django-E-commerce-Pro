@@ -8,7 +8,12 @@ class OrderCreatedForm(forms.ModelForm):
     class Meta:
         model = Order 
         fields = ['first_name', 'last_name', 'email', 'address', 'postal_code', 'city']
-
+        widgets = {
+            'city': forms.Select(
+                choices=[('', 'اختر مدينتك لتحديد سعر الشحن...')] + Order.CITY_CHOICES, 
+                attrs={'class': 'form-control placeholder-select'}
+            ),
+        }
 
 
 

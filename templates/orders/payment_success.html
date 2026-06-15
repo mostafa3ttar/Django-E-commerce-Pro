@@ -2,10 +2,58 @@
 
 {% block content %}
 
-<div class="container" style="margin: 50px auto 120px;">
-    <div class="alert alert-success" role="alert">
-        <h1>Payment successful</h1>
-        Order <b> {{order.order_id}} </b> has been paid successfully.
+<div class="container d-flex align-items-center justify-content-center"
+    style="min-height: 60vh; margin-top: 30px; margin-bottom: 60px;">
+    <div class="row justify-content-center w-100">
+        <div class="col-md-6 col-lg-5 text-center">
+            <div class="p-5 rounded-3 bg-white"
+                style="border: 1px solid #F0EBD8; box-shadow: 0 10px 30px rgba(0,0,0,0.015);">
+
+                <div class="mb-4 d-inline-flex align-items-center justify-content-center rounded-circle"
+                    style="width: 75px; height: 75px; background-color: rgba(46, 196, 182, 0.08); color: #2ec4b6;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+                        class="bi bi-check-lg" viewBox="0 0 16 16">
+                        <path
+                            d="M12.736 1.4q.251-.25.565-.251.314 0 .564.25l1.134 1.133q.25.25.25.565 0 .314-.25.564L6.16 12.516a.56.56 0 0 1-.793 0L1.4 8.583a.56.56 0 0 1 0-.793l1.133-1.133q.25-.25.565-.25t.564.25l2.71 2.71 6.364-6.364z" />
+                    </svg>
+                </div>
+
+                <h2 class="mb-3"
+                    style="color: #0D1321; font-weight: 600; font-size: 18pt; letter-spacing: 1px; text-transform: uppercase;">
+                    Payment Confirmed
+                </h2>
+                <p class="text-muted mb-4 px-3" style="font-size: 10.5pt; line-height: 1.6;">
+                    Your payment was verified successfully. We are now preparing your exquisite fragrance package to be
+                    shipped to your doorstep.
+                </p>
+
+                <div class="p-3 mb-4 rounded d-flex justify-content-between align-items-center"
+                    style="background-color: #F8F9FA; border: 1px dashed #748CAB;">
+                    <span style="font-size: 9.5pt; color: #748CAB; font-weight: 600; letter-spacing: 0.5px;">ORDER
+                        ID</span>
+                    <strong style="color: #0D1321; font-size: 11pt; letter-spacing: 1px;">
+                        {{ order.order_id }}
+                    </strong>
+                </div>
+
+                <div class="mt-2">
+                    <a href="{% url 'store:list_product' %}" class="btn w-100 py-2.5 home-return-btn"
+                        style="background-color: #0D1321; color: #ffffff; font-weight: bold; border-radius: 4px; letter-spacing: 1px; transition: all 0.3s; font-size: 10pt; text-transform: uppercase;">
+                        Continue Shopping
+                    </a>
+                </div>
+
+            </div>
+        </div>
     </div>
 </div>
+
+<style>
+    .home-return-btn:hover {
+        background-color: #1D2D44 !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(13, 19, 33, 0.15);
+    }
+</style>
+
 {% endblock content %}

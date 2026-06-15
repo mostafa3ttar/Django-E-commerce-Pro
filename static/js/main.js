@@ -178,3 +178,47 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+
+
+// Shiping and total price
+document.addEventListener('DOMContentLoaded', function () {
+    const citySelect = document.getElementById('id_city');
+    const shippingDisplay = document.getElementById('shipping-cost');
+    const totalDisplay = document.getElementById('order-total');
+    const productsSubtotalEl = document.getElementById('products-subtotal');
+
+    if (citySelect && shippingDisplay && totalDisplay && productsSubtotalEl) {
+
+        const productsSubtotal = parseFloat(productsSubtotalEl.getAttribute('data-price'));
+
+        const shippingRates = {
+            'CAI': 50.00, 'GIZ': 50.00, 'QAL': 55.00,
+            'ALX': 60.00, 'GHR': 65.00, 'MNF': 65.00,
+            'DKH': 65.00, 'SHR': 65.00, 'BHG': 65.00,
+            'KSH': 65.00, 'DMT': 65.00, 'PSD': 65.00,
+            'ISM': 65.00, 'SUZ': 65.00, 'FMT': 70.00,
+            'BNS': 70.00, 'MIN': 75.00, 'ASY': 80.00,
+            'SOH': 85.00, 'QNA': 90.00, 'LXR': 95.00,
+            'ASW': 100.00, 'RSE': 100.00, 'WAD': 120.00,
+            'MAT': 100.00, 'SIN': 120.00, 'SIS': 120.00
+        };
+
+        function updateSummary() {
+            const selectedCity = citySelect.value;
+            let shippingCost = 0.00;
+
+            if (selectedCity && shippingRates[selectedCity]) {
+                shippingCost = shippingRates[selectedCity];
+            }
+
+            const finalTotal = productsSubtotal + shippingCost;
+
+            shippingDisplay.textContent = shippingCost.toFixed(2) + ' EGP';
+            totalDisplay.textContent = finalTotal.toFixed(2) + ' EGP';
+        }
+
+        citySelect.addEventListener('change', updateSummary);
+        updateSummary();
+    }
+});

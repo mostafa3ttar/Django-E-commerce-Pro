@@ -1,31 +1,149 @@
 {% extends "base.html" %}
-
 {% load crispy_forms_tags %}
 
-
-
 {% block content %}
+<div class="container my-5">
 
-<div class="container justify-content-center my-5">
-    <h2>Pay for your order</h2>
-    <form method="post" enctype="multipart/form-data">
-        {%csrf_token%}
-
-        {{form|crispy}}
-        <button type="submit" class="btn btn-dark">Submit Payment</button>
-    </form>
-
-    {% if form.errors %}
-    <div class="error-message">
-        <ul>
-            {% for field in form %}
-            {% for error in fields.errors %}
-            <li>{{error}}</li>
-            {% endfor %}
-            {% endfor %}
-        </ul>
+    <div class="text-center mb-5">
+        <h2 style="color: #0D1321; font-weight: 300; letter-spacing: 3px; text-transform: uppercase;">Complete Payment
+        </h2>
+        <p style="color: #748CAB; font-size: 10pt; letter-spacing: 1px;">Upload your payment transaction transfer
+            screenshot to verify your order</p>
     </div>
-    {% endif %}
+
+    <div class="row g-5 justify-content-center">
+
+        <div class="col-lg-6 col-md-12">
+            <div class="p-4 rounded-3 bg-white"
+                style="border: 1px solid #F0EBD8; box-shadow: 0 4px 12px rgba(0,0,0,0.01);">
+                <h4 class="mb-4 pb-2"
+                    style="color: #0D1321; font-weight: 600; font-size: 13pt; border-bottom: 1px solid #F0EBD8; letter-spacing: 0.5px; text-transform: uppercase;">
+                    Submit Transfer Receipt
+                </h4>
+
+                <form method="post" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+                    <div class="payment-form-fields">
+                        {{ form|crispy }}
+                    </div>
+                    <div class="mt-4">
+                        <button type="submit" class="btn w-100 py-2.5"
+                            style="background-color: #0D1321; color: #ffffff; font-weight: bold; border-radius: 4px; letter-spacing: 1px; transition: all 0.3s; font-size: 11pt;">
+                            Confirm & Submit Payment
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-5 col-md-12">
+            <div class="p-4 rounded-3 bg-light" style="border: 1px solid #F0EBD8; position: sticky; top: 20px;">
+                <h4 class="mb-4 pb-2"
+                    style="color: #0D1321; font-weight: 600; font-size: 13pt; border-bottom: 1px solid #748CAB; letter-spacing: 0.5px; text-transform: uppercase;">
+                    How to Pay
+                </h4>
+
+                <p class="text-muted mb-4" style="font-size: 10pt; line-height: 1.6;">
+                    Please transfer the total order amount to one of our official payment methods below, then fill out
+                    the form with your phone number and payment receipt screenshot.
+                </p>
+
+                <div class="mb-4">
+                    <div class="p-3 mb-3 rounded bg-white border" style="border-color: #F0EBD8 !important;">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span style="font-weight: 600; color: #0D1321; font-size: 11pt;">InstaPay Address</span>
+                            <span class="badge bg-dark"
+                                style="font-size: 7.5pt; letter-spacing: 0.5px;">RECOMMENDED</span>
+                        </div>
+                        <div class="font-monospace text-secondary p-2 bg-light rounded d-flex justify-content-between align-items-center"
+                            style="font-size: 10.5pt;">
+                            <span>bonnyscent@instapay</span>
+                        </div>
+                    </div>
+
+                    <div class="p-3 rounded bg-white border" style="border-color: #F0EBD8 !important;">
+                        <div class="mb-1">
+                            <span style="font-weight: 600; color: #0D1321; font-size: 11pt;">Vodafone Cash</span>
+                        </div>
+                        <div class="font-monospace text-secondary p-2 bg-light rounded d-flex justify-content-between align-items-center"
+                            style="font-size: 10.5pt;">
+                            <span>01100103523</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-3 rounded"
+                    style="background-color: rgba(116, 140, 171, 0.05); font-size: 9pt; color: #748CAB; line-height: 1.5; border-left: 2px solid #748CAB;">
+                    🔒 Security Notice: Your order verification will be processed automatically within 10-15 minutes
+                    after submitting the valid receipt image.
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
+
+<style>
+    .payment-form-fields label {
+        font-size: 9pt;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        color: #748CAB;
+        margin-bottom: 6px;
+    }
+
+    .payment-form-fields input,
+    .payment-form-fields select,
+    .payment-form-fields input[type="file"] {
+        border: 1px solid #F0EBD8 !important;
+        border-radius: 4px !important;
+        padding: 11px 14px !important;
+        font-size: 10.5pt !important;
+        color: #1D2D44 !important;
+        background-color: #ffffff !important;
+    }
+
+    .payment-form-fields input[type="file"]::-webkit-file-upload-button {
+        background: #0D1321;
+        border: none;
+        color: #ffffff;
+        padding: 4px 12px;
+        border-radius: 3px;
+        margin-right: 10px;
+        font-size: 9pt;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .payment-form-fields input[type="file"]::-webkit-file-upload-button:hover {
+        background: #1D2D44;
+    }
+
+    .payment-form-fields input:focus,
+    .payment-form-fields select:focus {
+        border-color: #748CAB !important;
+        box-shadow: 0 0 0 0.2rem rgba(116, 140, 171, 0.08) !important;
+        outline: none !important;
+    }
+
+    .invalid-feedback {
+        font-size: 9pt !important;
+        font-weight: 500;
+        color: #dc3545 !important;
+        margin-top: 5px;
+    }
+
+    .is-invalid {
+        border-color: #dc3545 !important;
+    }
+
+    .btn:hover {
+        background-color: #1D2D44 !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(13, 19, 33, 0.15);
+    }
+</style>
 
 {% endblock content %}

@@ -1,56 +1,166 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 
-
-{% block title %}
-Order
-{% endblock title %}
-
-
 {% block content %}
+<div class="container my-5">
 
-<div class="container mt-4">
-    <div class="row">
-        <div class="col-md-4 bg-light p-3 w-100">
-            <div class="h4 pb-2 my-4 d-inline-block"
-                style="border-bottom: 2px solid #748CAB !important; color: #1D2D44 !important;">
-                Your order:
-                <ul>
-                    {% for item in cart %}
-                    <li>
-                        {{item.quantity}}x {{item.product.name}},
-                        <span>
-                            ${{item.total_price}}
-                        </span>
-                    </li>
-                    {% endfor %}
-                </ul>
-                {% if success %}
-                <div class="alert alert-success" role="alert">
-                    <span>Your order has been successfully.</span>
-                    <span><b>Order-ID: </b>{{order.order_id}}</span>
+    {% if success and order %}
+    <div class="row justify-content-center py-5">
+        <div class="col-md-7 text-center">
+            <div class="p-5 rounded-3 bg-white"
+                style="border: 1px solid #F0EBD8; box-shadow: 0 10px 30px rgba(0,0,0,0.02);">
+                <div class="mb-4 d-inline-flex align-items-center justify-content-center rounded-circle"
+                    style="width: 70px; height: 70px; background-color: rgba(46, 196, 182, 0.1); color: #2ec4b6;">
+                    <span style="font-size: 24pt; font-weight: bold;">✓</span>
                 </div>
-                {% else %}
-                <p>Total: ${{cart.get_total_price}}</p>
-                {% endif %}
+                <h3 class="mb-3" style="color: #0D1321; font-weight: bold; letter-spacing: 1px;">Thank You For Your
+                    Order</h3>
+                <p class="text-muted px-4" style="font-size: 11pt; line-height: 1.6;">
+                    Your elegant order has been placed successfully. A detailed invoice has been curated and sent to
+                    your email experience.
+                </p>
+                <div class="mt-4 p-3 d-inline-block rounded"
+                    style="background-color: #0D1321; color: #ffffff; letter-spacing: 1px; font-size: 11pt;">
+                    <span style="opacity: 0.7;">ORDER ID:</span> <strong>{{ order.order_id }}</strong>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-{% if not success %}
-<h4 class="text-center mt-4 bg-light p-3 w-100" style="color: #1D2D44">Apply this form to complete your order.</h4>
-{% endif %}
-<div class="container">
-    <div class="row justify-content-center my-4">
-        <form method="post">
-            {% csrf_token %}
-            {{form|crispy}}
-            {% if not success %}
-            <p><input type="submit" value="Confirm Order" class="btn btn-primary"></p>
-            {% endif %}
-        </form>
+    {% else %}
+
+    <div class="text-center mb-5">
+        <h2 style="color: #0D1321; font-weight: 300; letter-spacing: 3px; text-transform: uppercase;">Checkout</h2>
+        <p style="color: #748CAB; font-size: 10pt; letter-spacing: 1px;">Complete your details to finalize your elegant
+            order</p>
     </div>
+
+    <div class="row g-5 justify-content-center">
+        <div class="col-lg-7 col-md-12">
+            <div class="p-4 rounded-3 bg-white"
+                style="border: 1px solid #F0EBD8; box-shadow: 0 4px 12px rgba(0,0,0,0.01);">
+                <h4 class="mb-4 pb-2"
+                    style="color: #0D1321; font-weight: 600; font-size: 13pt; border-bottom: 1px solid #F0EBD8; letter-spacing: 0.5px; text-transform: uppercase;">
+                    Shipping Details
+                </h4>
+
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    <div class="checkout-form-fields">
+                        {{ form|crispy }}
+                    </div>
+                    <div class="mt-4">
+                        <input type="submit" value="Confirm Order" class="btn w-100 py-2.5"
+                            style="background-color: #0D1321; color: #ffffff; font-weight: bold; border-radius: 4px; letter-spacing: 1px; transition: all 0.3s; font-size: 11pt;">
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-5 col-md-12">
+            <div class="p-4 rounded-3 bg-light" style="border: 1px solid #F0EBD8; position: sticky; top: 20px;">
+                <h4 class="mb-4 pb-2"
+                    style="color: #0D1321; font-weight: 600; font-size: 13pt; border-bottom: 1px solid #748CAB; letter-spacing: 0.5px; text-transform: uppercase;">
+                    Your Order Summary
+                </h4>
+
+                <ul class="list-unstyled mb-4">
+                    {% for item in cart %}
+                    <li class="d-flex justify-content-between align-items-center py-2 border-bottom"
+                        style="font-size: 10.5pt; color: #1D2D44;">
+                        <div>
+                            <span class="text-muted" style="font-weight: 600;">{{ item.quantity }}x</span>
+                            <span style="font-weight: 500; margin-left: 6px;">{{ item.product.name }}</span>
+                        </div>
+                        <span style="font-weight: 600; color: #0D1321; white-space: nowrap;">{{ item.total_price }}
+                            EGP</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+
+                <table class="table table-borderless my-3" style="font-size: 11pt;">
+                    <tr>
+                        <td class="ps-0 text-muted">Subtotal</td>
+                        <td class="pe-0 text-end fw-bold" id="products-subtotal" data-price="{{ cart.get_total_price }}"
+                            style="color: #1D2D44; white-space: nowrap;">
+                            {{ cart.get_total_price }} EGP
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="ps-0 text-muted">Shipping Cost</td>
+                        <td class="pe-0 text-end fw-bold text-secondary" id="shipping-cost"
+                            style="white-space: nowrap;">
+                            0.00 EGP
+                        </td>
+                    </tr>
+                    <tr class="border-top" style="border-top-color: #D1C7BD !important;">
+                        <td class="ps-0 pt-3"
+                            style="font-size: 12pt; font-weight: bold; color: #0D1321; text-transform: uppercase; letter-spacing: 0.5px;">
+                            Total Amount
+                        </td>
+                        <td class="pe-0 pt-3 text-end" id="order-total"
+                            style="font-size: 13pt; font-weight: bold; color: #0D1321; white-space: nowrap;">
+                            {{ cart.get_total_price }} EGP
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="mt-4 p-3 rounded"
+                    style="background-color: rgba(116, 140, 171, 0.05); font-size: 9pt; color: #748CAB; line-height: 1.5; border-left: 2px solid #748CAB;">
+                    💡 Shipping cost is calculated dynamically based on your selected city and will be paid in cash upon
+                    delivery.
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
 </div>
 
+<style>
+    .checkout-form-fields label {
+        font-size: 9pt;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        color: #748CAB;
+        margin-bottom: 6px;
+    }
+
+    .checkout-form-fields input,
+    .checkout-form-fields select,
+    .checkout-form-fields textarea {
+        border: 1px solid #F0EBD8 !important;
+        border-radius: 4px !important;
+        padding: 11px 14px !important;
+        font-size: 10.5pt !important;
+        color: #1D2D44 !important;
+        background-color: #ffffff !important;
+    }
+
+    .checkout-form-fields input:focus,
+    .checkout-form-fields select:focus,
+    .checkout-form-fields textarea:focus {
+        border-color: #748CAB !important;
+        box-shadow: 0 0 0 0.2rem rgba(116, 140, 171, 0.08) !important;
+        outline: none !important;
+    }
+
+    .invalid-feedback {
+        font-size: 9pt !important;
+        font-weight: 500;
+        color: #dc3545 !important;
+        margin-top: 5px;
+    }
+
+    .is-invalid {
+        border-color: #dc3545 !important;
+    }
+
+    .btn:hover {
+        background-color: #1D2D44 !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(13, 19, 33, 0.15);
+    }
+</style>
 {% endblock content %}

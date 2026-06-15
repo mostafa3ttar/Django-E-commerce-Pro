@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice - {{ order.order_id }}</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm 15mm;
+            background-color: #ffffff;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: #1D2D44;
+            margin: 0;
+            padding: 0;
+            line-height: 1.5;
+            background-color: #ffffff;
+        }
+
+        .header {
+            border-bottom: 1px solid #F0EBD8;
+            padding-bottom: 25px;
+            margin-bottom: 35px;
+        }
+
+        .header-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .brand-section {
+            vertical-align: top;
+        }
+
+        .brand-name {
+            font-size: 26pt;
+            font-weight: bold;
+            letter-spacing: 7px;
+            color: #0D1321;
+            text-transform: uppercase;
+        }
+
+        .brand-subtitle {
+            font-size: 9pt;
+            letter-spacing: 3px;
+            color: #748CAB;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .invoice-title-section {
+            text-align: right;
+            vertical-align: top;
+        }
+
+        .invoice-title {
+            font-size: 20pt;
+            font-weight: 300;
+            letter-spacing: 2px;
+            color: #0D1321;
+            margin: 0 0 10px 0;
+        }
+
+        .meta-details {
+            font-size: 10pt;
+            color: #748CAB;
+            line-height: 1.6;
+        }
+
+        .meta-value {
+            color: #1D2D44;
+            font-weight: 500;
+        }
+
+        .status-badge {
+            display: inline-block;
+            color: #2ec4b6;
+            font-weight: bold;
+            font-size: 10pt;
+            margin-top: 5px;
+        }
+
+        .info-section {
+            margin-bottom: 45px;
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .info-col {
+            width: 50%;
+            vertical-align: top;
+        }
+
+        .info-label {
+            font-size: 9pt;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #748CAB;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .info-text {
+            font-size: 11pt;
+            color: #1D2D44;
+            line-height: 1.6;
+        }
+
+        .info-text.client-name {
+            font-weight: bold;
+            font-size: 12pt;
+            color: #0D1321;
+            text-transform: capitalize;
+        }
+
+        .arabic-text {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            text-align: left;
+        }
+
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 40px;
+        }
+
+        .items-table th {
+            text-transform: uppercase;
+            font-size: 9pt;
+            letter-spacing: 1px;
+            color: #0D1321;
+            border-bottom: 2px solid #0D1321;
+            padding: 12px 8px;
+            font-weight: bold;
+        }
+
+        .items-table td {
+            padding: 16px 8px;
+            border-bottom: 1px solid #F0EBD8;
+            vertical-align: middle;
+        }
+
+        .item-desc {
+            font-size: 11pt;
+            font-weight: 500;
+            color: #0D1321;
+        }
+
+        .item-sub {
+            font-size: 9pt;
+            color: #748CAB;
+            margin-top: 4px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .summary-container-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .summary-table tr td {
+            padding: 10px 0;
+            font-size: 10.5pt;
+            border-bottom: 1px solid #F0EBD8;
+        }
+
+        .summary-table .label {
+            color: #748CAB;
+            text-align: left;
+        }
+
+        .summary-table .value {
+            text-align: right;
+            font-weight: 600;
+            color: #1D2D44;
+            white-space: nowrap;
+            padding-left: 15px;
+        }
+
+        .summary-table .total-row td {
+            padding-top: 18px !important;
+            border-bottom: none !important;
+        }
+
+        .summary-table .total-label {
+            font-size: 12pt;
+            font-weight: bold;
+            color: #0D1321;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: left;
+        }
+
+        .summary-table .total-value {
+            font-size: 14pt;
+            font-weight: bold;
+            color: #0D1321;
+            text-align: right;
+            white-space: nowrap;
+            padding-left: 15px;
+        }
+
+        .footer-note {
+            margin-top: 100px;
+            text-align: center;
+            font-size: 10pt;
+            color: #748CAB;
+            letter-spacing: 1px;
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <table class="header-table">
+            <tr>
+                <td class="brand-section">
+                    <h1 class="brand-name">Bonny</h1>
+                    <p class="brand-subtitle">Luxury Fragrances</p>
+                </td>
+                <td class="invoice-title-section">
+                    <h2 class="invoice-title">INVOICE</h2>
+                    <div class="meta-details">
+                        Invoice No: <span class="meta-value">{{ order.order_id }}</span><br>
+                        Date: <span class="meta-value">{{ order.created_at|date:"d M Y" }}</span><br>
+                        <span class="status-badge">Paid ✓</span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="info-section">
+        <table class="info-table">
+            <tr>
+                <td class="info-col">
+                    <div class="info-label">Invoiced To</div>
+                    <div class="info-text client-name">{{ order.get_full_name.title }}</div>
+                    <div class="info-text arabic-text">{{ order.address }}، {{ city_name_arabic }}</div>
+                    {% if order.postal_code %}
+                    <div class="info-text">Postal Code: {{ order.postal_code }}</div>
+                    {% endif %}
+                    <div class="info-text">{{ order.email }}</div>
+                </td>
+                <td class="info-col" style="text-align: right;">
+                    <div class="info-label">From</div>
+                    <div class="info-text" style="font-weight: bold; color: #0D1321;">BONNY Customer Experience</div>
+                    <div class="info-text">bonnyscent@gmail.com</div>
+                    <div class="info-text">www.bonnyfragrances.com</div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <table class="items-table">
+        <thead>
+            <tr>
+                <th style="text-align: left; width: 50%;">Description</th>
+                <th class="text-center" style="width: 15%;">Qty</th>
+                <th class="text-right" style="width: 15%; text-align: right;">Price</th>
+                <th class="text-right" style="width: 20%; text-align: right;">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order.items.all %}
+            <tr>
+                <td>
+                    <div class="item-desc">{{ item.product.name }}</div>
+                    <div class="item-sub">Eau de Parfum - 100ml</div>
+                </td>
+                <td class="text-center">{{ item.quantity }}</td>
+                <td class="text-right">{{ item.price }} EGP</td>
+                <td class="text-right" style="white-space: nowrap; font-weight: 600;">{{ item.get_cost }} EGP</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <table class="summary-container-table">
+        <tr>
+            <td style="width: 50%; border: none;"></td>
+
+            <td style="width: 50%; border: none; vertical-align: top;">
+                <table class="summary-table">
+                    <tr>
+                        <td class="label">Subtotal (Paid via Cash or InstaPay)</td>
+                        <td class="value">{{ sub_total }} EGP</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Shipping (Cash on Delivery)</td>
+                        <td class="value">{{ order.get_shipping_rate }} EGP</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td class="total-label">Total Amount</td>
+                        <td class="total-value">{{ total_cost }} EGP</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    <div class="footer-note">
+        Thank you for choosing elegance. Thank you for choosing BONNY.
+    </div>
+
+</body>
+
+</html>

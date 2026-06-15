@@ -1190,3 +1190,20 @@ html {
 }
 
 /* End info-contacts */
+
+
+/* Start placeholder */
+
+.placeholder-select {
+  color: #6c757d;
+}
+
+.placeholder-select option:not([value=""]) {
+  color: #0d211b;
+}
+
+.placeholder-select option[value=""] {
+  display: none;
+}
+
+/* End placeholder */
