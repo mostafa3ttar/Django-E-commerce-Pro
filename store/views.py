@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.core.cache import cache
 from django.db.models import Q
+from django.core.paginator import Paginator
 
 def home(request):
     return render(request, 'store/home.html')
@@ -14,6 +15,7 @@ def list_product(request, category_slug=None):
     category = None
     selected_slug = category_slug or request.GET.get('category')
     query = request.GET.get('query', '').strip()
+    
     products = Product.objects.filter(status=Product.Status.AVAILABLE)
     
     if request.headers.get('x-requested-with') == 'XMLHttpRequest' and query:
@@ -34,7 +36,6 @@ def list_product(request, category_slug=None):
 
     if selected_slug == 'best_seller':
         products = Product.objects.filter(status=Product.Status.AVAILABLE, is_best_seller=True)
-            
     elif selected_slug and selected_slug != 'all':
         category = get_object_or_404(Category, slug=selected_slug)
         products = Product.objects.filter(status=Product.Status.AVAILABLE, category=category)
@@ -51,13 +52,22 @@ def list_product(request, category_slug=None):
             search=search_vector,
             rank=SearchRank(search_vector, search_query)
         ).filter(search=search_query).order_by('-rank')
+        
+    
+    paginator = Paginator(products, 3)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
 
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        html = render_to_string('store/product_cards.html', {'products': products}, request=request)
+        html = render_to_string('store/product_cards.html', {'products': products, 'page_obj':page_obj}, request=request)
         return JsonResponse({'html': html})     #to filtring by ajax
+    
+    
+    
     
     context = {'products':products,
             'category':category,
+            'page_obj':page_obj,
             }
     return render(request, 'store/list_product.html', context)
 

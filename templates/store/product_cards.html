@@ -1,5 +1,4 @@
-{% for product in products %}
-<div class="col-md-4 col-sm-6">
+{% for product in page_obj %} <div class="col-md-4 col-sm-6">
   <div class="product-card-modern shadow-sm h-100">
     <div class="card-img-wrapper">
       <a href="{{product.get_product_url}}">
@@ -24,8 +23,44 @@
     </div>
   </div>
 </div>
-{% empty %}
-<div class="col-12 text-center py-5">
+{% empty %} <div class="col-12 text-center py-5">
   <p class="text-muted">No products found in this category.</p>
 </div>
 {% endfor %}
+
+
+{% if page_obj.has_other_pages %}
+<div class="row">
+  <div class="col-lg-12">
+    <div class="pagination_wrap">
+      <ul>
+        {% if page_obj.has_previous %}
+        <li>
+          <a
+            href="?page={{ page_obj.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">
+            &laquo; </a>
+        </li>
+        {% endif %}
+
+        {% for page in page_obj.paginator.page_range %}
+        <li>
+          <a href="?page={{ page }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+            class="{% if page_obj.number == page %}active{% endif %}">
+            <span>{{ page }}</span>
+          </a>
+        </li>
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+        <li>
+          <a
+            href="?page={{ page_obj.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">
+            &raquo; </a>
+        </li>
+        {% endif %}
+
+      </ul>
+    </div>
+  </div>
+</div>
+{% endif %}
