@@ -7,7 +7,7 @@
     <style>
         @page {
             size: A4;
-            margin: 20mm 15mm;
+            margin: 15mm 12mm;
             background-color: #ffffff;
         }
 
@@ -22,14 +22,14 @@
             color: #1D2D44;
             margin: 0;
             padding: 0;
-            line-height: 1.5;
+            line-height: 1.4;
             background-color: #ffffff;
         }
 
         .header {
             border-bottom: 1px solid #F0EBD8;
-            padding-bottom: 25px;
-            margin-bottom: 35px;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .header-table {
@@ -42,11 +42,12 @@
         }
 
         .brand-name {
-            font-size: 26pt;
+            font-size: 22pt;
             font-weight: bold;
-            letter-spacing: 7px;
+            letter-spacing: 5px;
             color: #0D1321;
             text-transform: uppercase;
+            margin-bottom: 4px;
         }
 
         .brand-subtitle {
@@ -55,6 +56,7 @@
             color: #748CAB;
             text-transform: uppercase;
             margin: 0;
+            line-height: 1;
         }
 
         .invoice-title-section {
@@ -90,12 +92,13 @@
         }
 
         .info-section {
-            margin-bottom: 45px;
+            margin-bottom: 25px;
         }
 
         .info-table {
             width: 100%;
             border-collapse: collapse;
+            margin-bottom: 20px;
         }
 
         .info-col {
@@ -139,22 +142,22 @@
 
         .items-table th {
             text-transform: uppercase;
-            font-size: 9pt;
+            font-size: 8.5pt;
             letter-spacing: 1px;
             color: #0D1321;
             border-bottom: 2px solid #0D1321;
-            padding: 12px 8px;
+            padding: 10px 8px;
             font-weight: bold;
         }
 
         .items-table td {
-            padding: 16px 8px;
+            padding: 12px 8px;
             border-bottom: 1px solid #F0EBD8;
             vertical-align: middle;
         }
 
         .item-desc {
-            font-size: 11pt;
+            font-size: 10pt;
             font-weight: 500;
             color: #0D1321;
         }
@@ -176,7 +179,7 @@
         .summary-container-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
+            margin-top: 5px;
         }
 
         .summary-table {
@@ -204,7 +207,7 @@
         }
 
         .summary-table .total-row td {
-            padding-top: 18px !important;
+            padding-top: 12px !important;
             border-bottom: none !important;
         }
 
@@ -227,9 +230,9 @@
         }
 
         .footer-note {
-            margin-top: 100px;
+            margin-top: 40px;
             text-align: center;
-            font-size: 10pt;
+            font-size: 9pt;
             color: #748CAB;
             letter-spacing: 1px;
             font-style: italic;
@@ -244,7 +247,7 @@
             <tr>
                 <td class="brand-section">
                     <h1 class="brand-name">Bonny</h1>
-                    <p class="brand-subtitle">Luxury Fragrances</p>
+                    <p class="brand-subtitle" style="margin-top: 2px;">Luxury Fragrances</p>
                 </td>
                 <td class="invoice-title-section">
                     <h2 class="invoice-title">INVOICE</h2>
@@ -298,7 +301,9 @@
                 </td>
                 <td class="text-center">{{ item.quantity }}</td>
                 <td class="text-right">{{ item.price }} EGP</td>
-                <td class="text-right" style="white-space: nowrap; font-weight: 600;">{{ item.get_cost }} EGP</td>
+                <td class="text-right" style="font-size: 11pt; white-space: nowrap; font-weight: 600;">
+                    {{ item.get_cost}} EGP
+                </td>
             </tr>
             {% endfor %}
         </tbody>
@@ -306,21 +311,48 @@
 
     <table class="summary-container-table">
         <tr>
-            <td style="width: 50%; border: none;"></td>
+            <td style="width: 45%; border: none;"></td>
 
-            <td style="width: 50%; border: none; vertical-align: top;">
+            <td style="width: 55%; border: none; vertical-align: top;">
                 <table class="summary-table">
                     <tr>
-                        <td class="label">Subtotal (Paid via Cash or InstaPay)</td>
+                        <td class="label">Subtotal</td>
                         <td class="value">{{ sub_total }} EGP</td>
                     </tr>
+
+                    {% if order.coupon %}
                     <tr>
-                        <td class="label">Shipping (Cash on Delivery)</td>
+                        <td class="label" style="color: #2ec4b6; font-weight: 500;">
+                            Coupon "{{ order.coupon.code }}" (-{{ order.discount }}%)
+                        </td>
+                        <td class="value" style="color: #dc3545;">
+                            -{{ order.get_discount_amount|floatformat:2 }} EGP
+                        </td>
+                    </tr>
+                    {% endif %}
+
+                    <tr>
+                        <td class="label">Shipping Cost</td>
                         <td class="value">{{ order.get_shipping_rate }} EGP</td>
                     </tr>
+
                     <tr class="total-row">
-                        <td class="total-label">Total Amount</td>
-                        <td class="total-value">{{ total_cost }} EGP</td>
+                        <td class="total-label" style="padding-top: 15px;">Total Amount</td>
+                        <td class="total-value" style="padding-top: 15px;">
+                            {% if order.coupon %}
+                            <div
+                                style="font-size: 10pt; font-weight: normal; color: #748CAB; text-decoration: line-through; margin-bottom: 2px; opacity: 0.8;">
+                                {{ order.get_total_cost_before_discount|floatformat:2 }} EGP
+                            </div>
+                            <div style="font-size: 13pt; font-weight: bold; color: #0D1321;">
+                                {{ total_cost }} EGP
+                            </div>
+                            {% else %}
+                            <span style="font-size: 13pt; font-weight: bold; color: #0D1321;">
+                                {{ total_cost }} EGP
+                            </span>
+                            {% endif %}
+                        </td>
                     </tr>
                 </table>
             </td>

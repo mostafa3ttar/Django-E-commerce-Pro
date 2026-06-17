@@ -78,7 +78,7 @@
                     {% endfor %}
                 </ul>
 
-                <table class="table table-borderless my-3" style="font-size: 11pt;">
+                <table class="table table-borderless my-3" style="font-size: 11pt; background: transparent;">
                     <tr>
                         <td class="ps-0 text-muted">Subtotal</td>
                         <td class="pe-0 text-end fw-bold" id="products-subtotal" data-price="{{ cart.get_total_price }}"
@@ -86,6 +86,19 @@
                             {{ cart.get_total_price }} EGP
                         </td>
                     </tr>
+
+                    {% if cart.coupon %}
+                    <tr id="coupon-row">
+                        <td class="ps-0 text-muted">
+                            <span style="color: #2ec4b6; font-weight: 600;">🏷️ Coupon "{{ cart.coupon.code }}"</span>
+                        </td>
+                        <td class="pe-0 text-end fw-bold" id="coupon-discount-val"
+                            data-discount="{{ cart.get_discount }}" style="color: #dc3545; white-space: nowrap;">
+                            -{{ cart.get_discount|floatformat:2 }} EGP
+                        </td>
+                    </tr>
+                    {% endif %}
+
                     <tr>
                         <td class="ps-0 text-muted">Shipping Cost</td>
                         <td class="pe-0 text-end fw-bold text-secondary" id="shipping-cost"
@@ -98,9 +111,22 @@
                             style="font-size: 12pt; font-weight: bold; color: #0D1321; text-transform: uppercase; letter-spacing: 0.5px;">
                             Total Amount
                         </td>
-                        <td class="pe-0 pt-3 text-end" id="order-total"
-                            style="font-size: 13pt; font-weight: bold; color: #0D1321; white-space: nowrap;">
-                            {{ cart.get_total_price }} EGP
+                        <td class="pe-0 pt-3 text-end" id="order-total" style="white-space: nowrap;">
+                            <div class="text-end">
+                                {% if cart.coupon %}
+                                <div class="text-muted text-decoration-line-through"
+                                    style="font-size: 10pt; margin-bottom: -2px;">
+                                    {{ cart.get_total_price }} EGP
+                                </div>
+                                <span style="font-size: 15pt; font-weight: bold; color: #0D1321;">
+                                    {{ total_price_after_discount|floatformat:2 }} EGP
+                                </span>
+                                {% else %}
+                                <span style="font-size: 15pt; font-weight: bold; color: #0D1321;">
+                                    {{ cart.get_total_price }} EGP
+                                </span>
+                                {% endif %}
+                            </div>
                         </td>
                     </tr>
                 </table>

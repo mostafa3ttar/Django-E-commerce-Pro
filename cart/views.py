@@ -4,6 +4,7 @@ from store.models import Product
 from .cart import Cart
 from .forms import CartAddProductForm
 from django.http import JsonResponse
+from coupons.forms import CouponApplyForm
 
 
 
@@ -47,13 +48,18 @@ def cart_remove(request, product_id) -> int:
 
 def cart_detail(request):
     cart = Cart(request)
-    for item in cart:
-        item['update_quantity_form']= CartAddProductForm(initial={
-            'quantity':item['quantity'],
-            'override':True
+    
+    cart_items = list(cart)
+    
+    for item in cart_items:
+        item['update_quantity_form'] = CartAddProductForm(initial={
+            'quantity': item['quantity'],
+            'override': True
         })
-    context ={
-        'cart':cart,
+        
+    context = {
+        'cart': cart,
+        'cart_items': cart_items,
+        'copoun_apply_form': CouponApplyForm(),
     }
     return render(request, 'cart/cart_detail.html', context)
-

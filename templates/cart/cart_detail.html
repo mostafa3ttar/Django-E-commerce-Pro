@@ -1,99 +1,292 @@
 {% extends "base.html" %}
 
-
 {% block content %}
-
-<!-- cart section -->
-<section class="cart_section layout_padding">
+<section class="cart_section my-5" style="min-height: 70vh;">
     <div class="container">
-        <div class="heading_container heading_center">
-            <h2>
-                Shopping Cart
-            </h2><br><br>
+
+        <div class="text-center mb-5">
+            <h2 style="color: #0D1321; font-weight: 300; letter-spacing: 3px; text-transform: uppercase;">Shopping Cart
+            </h2>
+            <p style="color: #748CAB; font-size: 10pt; letter-spacing: 1px;">Review your premium selection before
+                checking out</p>
         </div>
-        <div class="row">
+
+        {% if cart_items %}
+        <div class="row g-5">
             <div class="col-lg-8">
-                <div class="cart_items">
-                    <table class="table">
+                <div class="table-responsive bg-white p-3 rounded-3" style="border: 1px solid #F0EBD8;">
+                    <table class="table align-middle mb-0" style="border-color: #F8F9FA;">
                         <thead>
-                            <tr>
-                                <th scope="col">Product</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Total</th>
-                                <th scope="col">ٌRemove</th>
+                            <tr
+                                style="font-size: 9pt; text-transform: uppercase; letter-spacing: 1px; color: #748CAB; border-bottom: 2px solid #F0EBD8;">
+                                <th scope="col" class="pb-3 border-0">Product</th>
+                                <th scope="col" class="pb-3 border-0 text-center">Price</th>
+                                <th scope="col" class="pb-3 border-0 text-center" style="width: 180px;">Quantity</th>
+                                <th scope="col" class="pb-3 border-0 text-end">Total</th>
+                                <th scope="col" class="pb-3 border-0 text-center"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for item in cart %}
+                            {% for item in cart_items %}
                             {% with product=item.product %}
-                            <tr>
-                                <td>
+                            <tr style="border-bottom: 1px solid #F8F9FA;">
+                                <td class="py-3">
                                     <div class="d-flex align-items-center">
-                                        <img src="{{ product.image.url }}" alt="Product Name" class="img-fluid"
-                                            style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">
-                                        <a href="{% url 'store:product_detail' product.slug %}">{{product.name}}</a>
+                                        {% if product.image %}
+                                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="rounded"
+                                            style="width: 60px; height: 60px; object-fit: cover; margin-right: 15px; border: 1px solid #F0EBD8;">
+                                        {% endif %}
+                                        <a href="{% url 'store:product_detail' product.slug %}"
+                                            style="color: #0D1321; font-weight: 600; font-size: 10.5pt; text-decoration: none; transition: color 0.2s;"
+                                            class="product-title-link">
+                                            {{ product.name }}
+                                        </a>
                                     </div>
                                 </td>
-                                <td>${{product.price}}</td>
-                                <td>
-                                    <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                                <td class="py-3 text-center" style="color: #1D2D44; font-size: 10.5pt;">
+                                    {{product.price}} EGP
+                                </td>
+                                <td class="py-3">
+                                    <form action="{% url 'cart:cart_add' product.id %}" method="post"
+                                        class="d-flex align-items-center justify-content-center gap-2 m-0">
                                         {% csrf_token %}
-                                        {{item.update_quantity_form.quantity}}
-                                        {{item.update_quantity_form.override}}
-                                        <input type="submit" value="Update" class="btn btn-sm btn-warning">
+                                        <div class="quantity-select-wrapper">
+                                            {{item.update_quantity_form.quantity}}
+                                            {{item.update_quantity_form.override}}
+                                        </div>
+                                        <button type="submit" class="btn btn-update-minimal">
+                                            Update
+                                        </button>
                                     </form>
                                 </td>
-                                <td>${{item.total_price}}</td>
-                                <td>
-                                    <form action="{% url 'cart:cart_remove' product.id %}" method="post">
+                                <td class="py-3 text-end" style="color: #0D1321; font-weight: bold; font-size: 10.5pt;">
+                                    {{ item.total_price }} EGP
+                                </td>
+                                <td class="py-3 text-center">
+                                    <form action="{% url 'cart:cart_remove' product.id %}" method="post" class="m-0">
                                         {% csrf_token %}
-                                        <input type="submit" value="Delete" class="btn btn-sm btn-danger delete-btn">
+                                        <button type="submit" class="btn p-1 remove-icon-btn" title="Remove item">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="#748CAB" class="bi bi-x-circle" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                                                <path
+                                                    d="M4.646 4.646a.51.51 0 0 1 .708 0L8 7.293l2.646-2.646a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.646a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                                            </svg>
+                                        </button>
                                     </form>
                                 </td>
                             </tr>
-                            <!-- Repeat for more items -->
                             {% endwith %}
                             {% endfor %}
                         </tbody>
                     </table>
-                    <div>
-                        {% with total_items=cart|length %}
-                        {% if total_items > 0 %}
-                        <h4 class="mt-5">
-                            Total items: {{total_items}} item
-                        </h4>
-                        <h4 class="mt-3">
-                            Total price: ${{cart.get_total_price}}
-                        </h4>
-                        {% else %}
-
-                        <h4 class="my-5">Your cart is empty.</h4>
-
-                        {% endif %}
-                        {% endwith %}
-                    </div>
+                </div>
+                <div class="mt-3 ps-2">
+                    <span class="text-muted" style="font-size: 9.5pt; letter-spacing: 0.5px;">Total Items:
+                        <b>{{cart|length}}</b>
+                    </span>
                 </div>
             </div>
+
             <div class="col-lg-4">
-                <div class="cart_summary">
-                    <h4>Cart Summary</h4>
-                    <ul>
-                        <li>Subtotal: <span>${{cart.get_total_price}}</span></li>
-                        <li>Tax: <span>$30</span></li>
-                        <li>Total: <span>$330</span></li>
-                    </ul>
-                    <form class="coupon_form mt-4">
-                        <label for="coupon_code">Coupon Code</label>
-                        <input type="text" id="coupon_code" class="form-control" placeholder="Enter your code">
-                        <button type="submit" class="btn btn-primary mt-2">Apply Coupon</button>
+                <div class="p-4 rounded-3 bg-white" style="border: 1px solid #F0EBD8; position: sticky; top: 20px;">
+                    <h4 class="mb-4 pb-2"
+                        style="color: #0D1321; font-weight: 600; font-size: 12pt; border-bottom: 1px solid #F0EBD8; letter-spacing: 0.5px; text-transform: uppercase;">
+                        Order Summary
+                    </h4>
+
+                    <div class="d-flex justify-content-between mb-3" style="font-size: 10.5pt; color: #1D2D44;">
+                        <span>Subtotal</span>
+                        <span>{{ cart.get_total_price }} EGP</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between mb-3" style="font-size: 10.5pt; color: #748CAB;">
+                        <span>Shipping</span>
+                        <span style="font-size: 9pt; font-weight: 600; letter-spacing: 0.5px;">CALCULATED AT NEXT
+                            STEP</span>
+                    </div>
+
+                    {% if cart.coupon %}
+                    <div class="p-3 my-3 rounded-2"
+                        style="background-color: rgba(46, 196, 182, 0.05); border: 1px dashed #2ec4b6;">
+                        <div class="d-flex justify-content-between align-items-center mb-2" style="font-size: 10pt;">
+                            <span style="color: #2ec4b6; font-weight: 600; letter-spacing: 0.5px;">
+                                🏷️ "{{ cart.coupon.code }}" APPLIED
+                            </span>
+                            <span class="badge" style="background-color: #2ec4b6; font-size: 7.5pt;">
+                                -{{ cart.coupon.discount }}%
+                            </span>
+                        </div>
+                        <div class="d-flex justify-content-between" style="font-size: 10pt; color: #1D2D44;">
+                            <span class="text-muted">Discount Value</span>
+                            <span style="color: #dc3545; font-weight: 600;">
+                                -{{ cart.get_discount|floatformat:2 }} EGP
+                            </span>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <hr style="color: #F0EBD8; margin: 20px 0;">
+
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <span
+                            style="font-weight: bold; color: #0D1321; font-size: 11pt; text-transform: uppercase; letter-spacing: 0.5px;">
+                            Total Amount
+                        </span>
+                        <div class="text-end">
+                            {% if cart.coupon %}
+                            <div class="text-muted text-decoration-line-through"
+                                style="font-size: 10pt; margin-bottom: -2px;">
+                                {{ cart.get_total_price }} EGP
+                            </div>
+                            <span style="font-size: 15pt; font-weight: bold; color: #0D1321;">
+                                {{ cart.get_total_price_after_discount|floatformat:2 }} EGP
+                            </span>
+                            {% else %}
+                            <span style="font-size: 15pt; font-weight: bold; color: #0D1321;">
+                                {{ cart.get_total_price }} EGP
+                            </span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <form class="coupon-input-group mb-4" action="{% url 'coupons:coupon_apply' %}" method="post">
+                        {% csrf_token %}
+                        <div class="d-flex gap-2">
+                            <div class="flex-grow-1 custom-coupon-field">
+                                {{ copoun_apply_form.code }}
+                            </div>
+                            <button type="submit" class="btn btn-apply-coupon">Apply</button>
+                        </div>
                     </form>
-                    <a href="{% url 'orders:checkout' %}" class="btn btn-success mt-4 w-100">Checkout</a>
+
+                    <a href="{% url 'orders:checkout' %}" class="btn w-100 py-3 checkout-main-btn">
+                        Proceed to Checkout
+                    </a>
                 </div>
             </div>
         </div>
+        {% else %}
+        <div class="text-center py-5">
+            <div class="mb-4 text-muted">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor"
+                    class="bi bi-bag-dash" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M5.5 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H6a.5.5 0 0 1-.5-.5z" />
+                    <path
+                        d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z" />
+                </svg>
+            </div>
+            <h4 style="color: #0D1321; font-weight: 400;">Your luxury cart is currently empty.</h4>
+            <a href="{% url 'store:list_product' %}" class="btn mt-4 px-5 py-2.5"
+                style="background-color: #0D1321; color: #ffffff; border-radius: 4px; font-weight: bold; letter-spacing: 1px; font-size: 9.5pt; text-transform: uppercase; text-decoration: none;">
+                Explore Fragrances
+            </a>
+        </div>
+        {% endif %}
+
     </div>
 </section>
-<!-- end cart section -->
 
+<style>
+    .product-title-link:hover {
+        color: #748CAB !important;
+    }
+
+    .custom-coupon-field input {
+        width: 100%;
+        border: 1px solid #748CAB !important;
+        /* حدود بلون واضح متناسق */
+        border-radius: 4px !important;
+        padding: 8px 12px !important;
+        font-size: 10pt !important;
+        color: #0D1321 !important;
+        outline: none !important;
+        background-color: #ffffff !important;
+    }
+
+    .quantity-select-wrapper select {
+        width: 75px !important;
+        border: 1px solid #748CAB !important;
+        border-radius: 4px !important;
+        padding: 6px 10px !important;
+        font-size: 10pt !important;
+        color: #0D1321 !important;
+        outline: none !important;
+        background-color: #ffffff !important;
+        display: inline-block !important;
+    }
+
+    .custom-coupon-field input:focus,
+    .quantity-select-wrapper select:focus {
+        border-color: #0D1321 !important;
+    }
+
+    .btn-apply-coupon {
+        background-color: #ffffff;
+        color: #0D1321;
+        border: 1px solid #0D1321;
+        font-size: 9pt;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 8px 20px;
+        border-radius: 4px;
+        transition: all 0.2s;
+    }
+
+    .btn-apply-coupon:hover {
+        background-color: #0D1321;
+        color: #ffffff;
+    }
+
+    .btn-update-minimal {
+        background-color: #F8F9FA;
+        color: #1D2D44;
+        border: 1px solid #F0EBD8;
+        font-size: 8.5pt;
+        padding: 7px 12px;
+        font-weight: 500;
+        border-radius: 4px;
+        transition: all 0.2s;
+    }
+
+    .btn-update-minimal:hover {
+        background-color: #0D1321;
+        color: #ffffff;
+        border-color: #0D1321;
+    }
+
+    .remove-icon-btn {
+        border: none !important;
+        background: none !important;
+        transition: transform 0.2s;
+    }
+
+    .remove-icon-btn:hover {
+        transform: scale(1.1);
+    }
+
+    .remove-icon-btn:hover svg path {
+        fill: #dc3545;
+    }
+
+    .checkout-main-btn {
+        background-color: #0D1321 !important;
+        color: #ffffff !important;
+        font-weight: bold !important;
+        border-radius: 4px !important;
+        letter-spacing: 1.5px !important;
+        text-transform: uppercase !important;
+        font-size: 10pt !important;
+        transition: all 0.3s ease !important;
+    }
+
+    .checkout-main-btn:hover {
+        background-color: #1D2D44 !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 15px rgba(13, 19, 33, 0.15);
+    }
+</style>
 {% endblock content %}

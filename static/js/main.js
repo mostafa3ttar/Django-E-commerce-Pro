@@ -222,3 +222,70 @@ document.addEventListener('DOMContentLoaded', function () {
         updateSummary();
     }
 });
+
+
+// Checkout
+document.addEventListener("DOMContentLoaded", function () {
+
+    function updateElegantTotal() {
+        let subtotalEl = document.getElementById("products-subtotal");
+        let subtotal = parseFloat(subtotalEl.getAttribute("data-price")) || 0;
+
+        let couponEl = document.getElementById("coupon-discount-val");
+        let discount = 0;
+        if (couponEl) {
+            discount = parseFloat(couponEl.getAttribute("data-discount")) || 0;
+        }
+
+        let shippingEl = document.getElementById("shipping-cost");
+        let shipping = parseFloat(shippingEl.innerText) || 0;
+
+        let totalBeforeDiscount = subtotal + shipping;
+        let finalTotalWithShipping = subtotal - discount + shipping;
+
+        let orderTotalEl = document.getElementById("order-total");
+
+        if (couponEl) {
+            let targetHTML = `
+                <div class="text-end">
+                    <div class="text-muted text-decoration-line-through" style="font-size: 10pt; margin-bottom: -2px; opacity: 0.7;">
+                        ${totalBeforeDiscount.toFixed(2)} EGP
+                    </div>
+                    <span style="font-size: 15pt; font-weight: bold; color: #0D1321;">
+                        ${finalTotalWithShipping.toFixed(2)} EGP
+                    </span>
+                </div>
+            `;
+            if (orderTotalEl.innerHTML.trim() !== targetHTML.trim()) {
+                orderTotalEl.innerHTML = targetHTML;
+            }
+        } else {
+            let targetHTML = `
+                <span style="font-size: 15pt; font-weight: bold; color: #0D1321;">
+                    ${finalTotalWithShipping.toFixed(2)} EGP
+                </span>
+            `;
+            if (orderTotalEl.innerHTML.trim() !== targetHTML.trim()) {
+                orderTotalEl.innerHTML = targetHTML;
+            }
+        }
+    }
+
+    updateElegantTotal();
+
+    let shippingCostEl = document.getElementById("shipping-cost");
+    if (shippingCostEl) {
+        let observer = new MutationObserver(function (mutations) {
+            updateElegantTotal();
+        });
+
+        observer.observe(shippingCostEl, { childList: true, characterData: true, subtree: true });
+    }
+
+    let citySelect = document.querySelector(".checkout-form-fields select");
+    if (citySelect) {
+        citySelect.addEventListener("change", function () {
+            setTimeout(updateElegantTotal, 150);
+        });
+    }
+});

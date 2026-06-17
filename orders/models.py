@@ -64,6 +64,13 @@ class Order(models.Model):
         choices=STATUS_CHOICES,
         default='pending'
     )
+    coupon = models.ForeignKey(
+        'coupons.Coupon', 
+        null=True, 
+        blank=True, 
+        on_delete=models.SET_NULL
+    )
+    discount = models.IntegerField(default=0)
     paid = models.BooleanField(default=False)
     
     
