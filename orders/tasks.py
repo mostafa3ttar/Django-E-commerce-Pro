@@ -30,7 +30,8 @@ def send_emails_order_create(order_id) -> str:
     subject = f'طلبك رقم [{order.order_id}] قيد المراجعة'
 
     message = f"Hello {order.get_full_name().title()},\n\n"
-    message += f"شكراً لاختيارك BONNY. استلمنا طلبك بنجاح، وفريقنا بدأ حالياً في تجهيزه بكل عناية\n\n"
+    message += f"استلمنا طلبك بنجاح، وفريقنا بدأ في تجهيزه بكل عناية\n"
+    message += f"شكراً لاختيارك BONNY\n\n"
     
     message += f"--- تفاصيل الدفع --- \n"
     message += f"قيمة الطلب: {sub_total:,.2f} جنيه\n"
