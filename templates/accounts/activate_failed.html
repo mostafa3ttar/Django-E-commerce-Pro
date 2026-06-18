@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="activation-container">
+    <div class="activation-box">
+        <div class="activation-icon failed-color">
+            <i class="fa-solid fa-circle-exclamation"></i>
+        </div>
+        <h2>Activation Failed</h2>
+        <p>The verification link is invalid or has expired. Please try registering again or contact support.</p>
+        <a href="{% url 'accounts:register' %}" class="luxury-btn">Register Again</a>
+    </div>
+</div>
+{% endblock content %}

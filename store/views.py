@@ -54,7 +54,7 @@ def list_product(request, category_slug=None):
         ).filter(search=search_query).order_by('-rank')
         
     
-    paginator = Paginator(products, 3)
+    paginator = Paginator(products, 9)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 

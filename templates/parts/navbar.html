@@ -19,15 +19,25 @@
           <div id="search-suggestions" class="search-suggestions-dropdown shadow-lg"></div>
 
         </form>
-
+        {% if user.is_authenticated %}
         <div class="user_option_box me-3">
-          <a href="{% url 'accounts:register' %}" class="account-link">
+          <a href="{% url 'accounts:profile' %}" class="account-link">
             <i class="fa fa-user" style="color: #748CAB;" aria-hidden="true"></i>
             <span>
-              My Account
+              Profile
             </span>
           </a>
         </div>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'accounts:register' %}" style="color: #F0EBD8;">Signup &nbsp; <i
+              class="bi-person-plus-fill" aria-hidden="true"></i> </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'accounts:login' %}" style="color: #F0EBD8;">Login &nbsp; <i
+              class="bi bi-door-closed-fill" aria-hidden="true"></i> </a>
+        </li>
+        {% endif %}
 
         <div class="cart-dropdown-wrapper"
           style="position: relative; display: flex; align-items: center; height: 100%;">

@@ -4,7 +4,7 @@ $(document).ready(function () {
         $(".custom-alert").fadeOut('slow', function () {
             $(this).remove();
         });
-    }, 3000);
+    }, 4000);
 });
 
 

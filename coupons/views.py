@@ -8,7 +8,7 @@ from .forms import CouponApplyForm
 
 
 
-
+@require_POST
 def coupon_apply(request):
     now = timezone.now()
     form = CouponApplyForm(request.POST)

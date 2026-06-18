@@ -4,35 +4,57 @@
 {% block content %}
 
 {% if request.GET.command == 'verification' %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="verification-box text-center p-5 shadow-sm">
+                <i class="fa-regular fa-envelope" style="font-size: 3rem; color: #0D1321; margin-bottom: 20px;"></i>
 
-<div class="row justify-content-center">
-    <div class="alert alert-success">
-        <h4 class="alert alert-heading">Registration Successful!</h4>
-        <p>Thank you for signing up. A verification email has been sent to your inbox.</p>
-        <hr>
-        <p class="mb-0">Already verified? <a href="{% url 'accounts:login' %}">Log in here.</a></p>
+                <h2 class="mb-4" style="text-transform: uppercase; letter-spacing: 2px;">Verification Sent!</h2>
+
+                <p class="text-muted mb-4">
+                    Thank you for signing up with BONNY. <br>
+                    A verification email has been sent to your inbox. Please check it to activate your account.
+                </p>
+
+                <hr class="my-4">
+
+                <p class="mb-0">
+                    Already verified?
+                    <a href="{% url 'accounts:login' %}" style="color: #0D1321; font-weight: bold;">Log in here.</a>
+                </p>
+            </div>
+        </div>
     </div>
 </div>
 
 {% else %}
 
-<div class="container">
+<div class="container my-5">
     <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-4">
-            <h1 class="row justify-content-center">Login</h1>
+        <div class="col-md-5 col-lg-4">
+            <h2 class="text-center mb-4" style="letter-spacing: 5px; text-transform: uppercase;">Login</h2>
+
             {% include "parts/_messages.html" %}
-            <form method='POST' action="{% url 'accounts:login' %}" class="my-class" autocomplete="off">
+
+            <form method='POST' action="{% url 'accounts:login' %}" class="luxury-form" autocomplete="off">
                 {% csrf_token %}
-                <div class="form-group my-3">
-                    <input type="email" name="email" class="form-control" placeholder="Enter Email">
+
+                <div class="form-group mb-4">
+                    <input type="email" name="email" class="form-control" placeholder="Enter Email" required>
                 </div>
-                <div class="form-group">
+
+                <div class="form-group mb-4">
                     <input type="password" name="password" class="form-control" placeholder="Password"
-                        autocomplete="new-password">
+                        autocomplete="new-password" required>
                 </div>
-                <button type="submit" class="btn btn-outline-primary my-3">Login</button>
+
+                <button type="submit" class="luxury-btn">Login</button>
             </form>
-            <p>Don't have an account? <a href="{% url 'accounts:register' %}">Register</a> </p>
+
+            <p class="text-center mt-3" style="font-size: 0.9rem;">
+                Don't have an account? <a href="{% url 'accounts:register' %}" style="color: #748CAB;">Register</a>
+            </p>
         </div>
     </div>
 </div>

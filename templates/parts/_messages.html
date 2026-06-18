@@ -1,15 +1,9 @@
 <div class="message-container text-center">
     {% if messages %}
-    {% for message in messages %}
-    <div id="message" class="custom-alert">
-        <div {% if message.tags %}
-            class="alert alert-{{message.tags}} d-flex justify-content-between align-items-center alert-dismissible fade show"
-            role="alert" {% endif %}>
-            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %} {% endif %}
-            <span><b>{{ message }}</b></span>
-            <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
-        </div>
-    </div>
-    {% endfor %}
+        {% for message in messages %}
+            <div id="message" class="custom-alert alert-{{ message.tags }} d-flex justify-content-center align-items-center">
+                <span><b>{{ message }}</b></span>
+            </div>
+        {% endfor %}
     {% endif %}
 </div>

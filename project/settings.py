@@ -186,3 +186,5 @@ CACHES = {
         }
     }
 }
+
+LOGIN_URL = 'accounts:login'

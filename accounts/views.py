@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from .forms import RegisterForm
 from .models import Account
 from django.conf import settings
 from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import logout
 from django.contrib import messages
 
 #Activation Account
@@ -63,24 +65,34 @@ def register(request):
 
 
 def login(request):
+    
+    if request.user.is_authenticated:
+        return redirect('store:home')
+    
     if request.method == 'POST':
-        email = request.POST['email']
-        password = request.POST['password']
+        email = request.POST.get('email')
+        password = request.POST.get('password')
         
         user = authenticate(email=email, password=password)
         
         if user is not None:
             if user.is_active:
                 auth_login(request, user)
-                messages.success(request,'Logged in successfully.')
                 return redirect('store:home')
             else:
-                messages.error(request, 'Your account not active.')
+                messages.error(request, 'Your account is not active.')
         else:
             messages.error(request, 'Invalid email or password.')
-            return redirect('accounts:login')
+        return render('accounts:login')
         
     return render(request, 'accounts/login.html')
+
+
+def logout_view(request):
+    logout(request)
+    request.session.flush() 
+    messages.info(request, 'You have been logged out.')
+    return redirect('accounts:login')
     
 
 def activate(request, uidb64, token):
@@ -91,13 +103,24 @@ def activate(request, uidb64, token):
         user=None
         
     if user is not None and default_token_generator.check_token(user, token):
+        if user.is_active:
+            messages.add_message(request, messages.INFO, 'Your account is already active. Please log in.', extra_tags='warning')
+            return redirect('accounts:login')
         user.is_active = True
         user.save()
-        messages.success(request, 'Your account has been activated successfully.')
-        return redirect('accounts:login')
+        return render(request, 'accounts/activate_success.html')
     else:
-        messages.error(request, 'The activation link is invalid or has expired.')
-        return redirect('accounts:register')
+        return render(request, 'accounts/activate_failed.html')
     
     
-        
+@login_required(login_url='accounts:login')
+def profile(request):
+    user = request.user
+    # orders = Order.objects.filter(user=user).order_by('-created_at')
+    
+    context = {
+        'user': user,
+        # 'orders': orders,
+    }
+    
+    return render(request, 'accounts/profile.html', context)

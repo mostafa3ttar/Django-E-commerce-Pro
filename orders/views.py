@@ -4,6 +4,7 @@ from .forms import OrderCreatedForm, OrderPayForm
 from cart.cart import Cart
 from .tasks import send_emails_order_create
 from coupons.models import Coupon
+from django.contrib.auth.decorators import login_required
 
 from django.http import HttpResponse
 from django.template.loader import render_to_string
@@ -54,7 +55,7 @@ def admin_order_pdf(request, order_id):
 
 
 
-
+@login_required(login_url='accounts:login')
 def checkout(request):
     cart = Cart(request)
     order = None  
@@ -102,7 +103,7 @@ def checkout(request):
     return render(request, 'orders/checkout.html', context)
 
 
-
+@login_required(login_url='accounts:login')
 def order_pay_by_vodafone(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     order_pay, created = OrderPay.objects.get_or_create(order=order)
@@ -124,7 +125,7 @@ def order_pay_by_vodafone(request, order_id):
     
     return render(request, 'orders/pay_form.html', context)
 
-
+@login_required(login_url='accounts:login')
 def payment_success(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     # from .tasks import payment_completed

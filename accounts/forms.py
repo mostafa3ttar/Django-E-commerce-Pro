@@ -28,4 +28,8 @@ class RegisterForm(forms.ModelForm):
         self.fields['phone_number'].widget.attrs['placeholder'] = 'Phone Number'
         self.fields['password'].widget.attrs['placeholder'] = 'Enter Password'
         self.fields['confirm_password'].widget.attrs['placeholder'] = 'Confirm Password'
+        
+        for field in self.fields:
+            self.fields[field].label = False 
+
             

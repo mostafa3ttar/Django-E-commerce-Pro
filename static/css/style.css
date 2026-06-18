@@ -1258,3 +1258,199 @@ html {
 }
 
 /* End pagination */
+
+
+/* Start Accounts */
+
+/* Start login & Register */
+
+.luxury-form .form-control {
+  border: none;
+  border-bottom: 2px solid #F0EBD8;
+  border-radius: 0;
+  background-color: transparent !important;
+  transition: all 0.3s ease;
+  padding: 10px 0;
+  background: transparent;
+  transition: border-color 0.3s;
+  padding: 8px 8px !important;
+  font-size: 18px;
+  width: 100%;
+  color: #1D2D44;
+
+}
+
+.luxury-form .form-control:-webkit-autofill,
+.luxury-form .form-control:-webkit-autofill:hover,
+.luxury-form .form-control:-webkit-autofill:focus {
+  -webkit-text-fill-color: #1D2D44;
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.luxury-form .form-control:focus {
+  box-shadow: none;
+  border-bottom: 2px solid #0D1321;
+  padding: 10px 12px !important;
+  margin-bottom: 25px;
+
+
+}
+
+.luxury-form .form-control::placeholder {
+  padding-left: 3px;
+  color: #A0A0A0;
+  font-size: 14px;
+}
+
+.luxury-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #0D1321;
+  color: #ffffff;
+  border: none;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-top: 20px;
+  transition: opacity 0.3s;
+}
+
+.luxury-btn:hover {
+  opacity: 0.9;
+}
+
+/* End login Register */
+
+/* Start verification */
+
+.verification-box {
+  background-color: #ffffff;
+  border: 1px solid #F0EBD8;
+  border-radius: 0;
+  transition: transform 0.3s ease;
+}
+
+.verification-box:hover {
+  transform: translateY(-5px);
+}
+
+.verification-box h2 {
+  color: #0D1321;
+  font-weight: 600;
+}
+
+.verification-box p {
+  line-height: 1.6;
+  font-size: 1.1rem;
+}
+
+/* End verification */
+
+/* Start alerts */
+
+.custom-alert {
+  margin-bottom: 20px;
+  padding: 15px;
+  font-size: 0.9rem;
+  text-align: center;
+  border-radius: 0 !important;
+}
+
+.alert-success {
+  background-color: #D8F3DC;
+  color: #081C15;
+}
+
+.alert-error {
+  background-color: #F8D7DA;
+  color: #721C24;
+}
+
+.alert-info {
+  background-color: #E2EAF8;
+  color: #1D3557;
+}
+
+.alert-warning {
+  background-color: #FFF3CD;
+  color: #856404;
+}
+
+/* End alerts */
+
+/* Start profile */
+
+.profile-sidebar .nav-link {
+  color: #1D2D44;
+  padding: 10px 0;
+  border-bottom: 1px solid #F0EBD8;
+  transition: 0.3s;
+}
+
+.profile-sidebar .nav-link.active,
+.profile-sidebar .nav-link:hover {
+  color: #0D1321;
+  font-weight: bold;
+}
+
+.profile-content {
+  background: #fff;
+  border: 1px solid #F0EBD8;
+}
+
+.stat-card {
+  padding: 20px;
+  border: 1px solid #F0EBD8;
+  text-align: center;
+}
+
+.stat-card h3 {
+  font-size: 2rem;
+  color: #0D1321;
+}
+
+/* End profile */
+
+/* Start Activate */
+
+.activation-container {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.activation-box {
+  max-width: 450px;
+  margin: 0 auto;
+  padding: 40px;
+  background: #fff;
+  border: 1px solid #F0EBD8;
+}
+
+.activation-icon {
+  font-size: 3.5rem;
+  margin-bottom: 25px;
+}
+
+.success-color {
+  color: #2D6A4F;
+}
+
+.failed-color {
+  color: #BC4749;
+}
+
+.activation-box h2 {
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: 20px;
+}
+
+.activation-box p {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+/* End Activate */
+
+/* End Accounts */
