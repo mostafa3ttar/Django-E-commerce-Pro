@@ -1,127 +1,58 @@
 {% extends "base.html" %}
-
-{% include "parts/_messages.html" %}
+{% load static %}
 {% block content %}
 
-<!-- slider section -->
-<section class="slider_section ">
-  <div id="customCarousel1" class="carousel slide" data-ride="carousel">
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        <div class="container ">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="detail-box">
-                <h1>
-                  Welcome to our shop
-                </h1>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste quam velit saepe
-                  dolorem deserunt quo quidem ad optio.
-                </p>
-                <a href="">
-                  Read More
-                </a>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="img-box">
-                <img src="static/images/slider-img.png" alt="">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <div class="container ">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="detail-box">
-                <h1>
-                  Welcome to our shop
-                </h1>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste quam velit saepe
-                  dolorem deserunt quo quidem ad optio.
-                </p>
-                <a href="">
-                  Read More
-                </a>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="img-box">
-                <img src="images/slider-img.png" alt="">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <div class="container ">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="detail-box">
-                <h1>
-                  Welcome to our shop
-                </h1>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste quam velit saepe
-                  dolorem deserunt quo quidem ad optio.
-                </p>
-                <a href="">
-                  Read More
-                </a>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="img-box">
-                <img src="images/slider-img.png" alt="">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- end slider section -->
-
-<!-- about section -->
-
-<section class="about_section" id="about-section">
-  <div class="container-fluid  ">
+<!-- start Hero section -->
+<section class="hero-section">
+  <div class="container-fluid">
     <div class="row">
-      <div class="col-md-5 ml-auto">
-        <div class="detail-box pr-md-3">
-          <div class="heading_container">
-            <h2>
-              We Provide Best For You
-            </h2>
-          </div>
-          <p>
-            Totam architecto rem beatae veniam, cum officiis adipisci soluta perspiciatis ipsa, expedita
-            maiores quae accusantium. Animi veniam aperiam, necessitatibus mollitia ipsum id optio ipsa odio
-            ab facilis sit labore officia!
-            Repellat expedita, deserunt eum soluta rem culpa. Aut, necessitatibus cumque. Voluptas
-            consequuntur vitae aperiam animi sint earum, ex unde cupiditate, molestias dolore quos quas
-            possimus eveniet facilis magnam? Vero, dicta.
+      <div class="col-md-6">
+        <div class="hero-content">
+          <h1 class="hero-title">The Art of Essence</h1>
+          <p class="hero-subtitle">
+            Experience a curated collection of ultra-minimal luxury fragrances crafted to define your presence.
           </p>
-          <a href="">
-            Read More
+          <a href="/list_product/" class="btn-hero">
+            Explore Collection
           </a>
         </div>
       </div>
-      <div class="col-md-6 px-0">
-        <div class="img-box">
-          <img src="images/about-img.jpg" alt="">
-        </div>
+    </div>
+  </div>
+</section>
+<!-- end Hero section -->
+
+<!-- start collection sections -->
+<section class="collections-section py-5">
+  <div class="container">
+    <div class="section-header text-center mb-5">
+      <span class="sub-title">Curated For You</span>
+      <h2 class="main-title">The Collections</h2>
+    </div>
+    <div class="row g-4">
+      {% for collection in collections %}
+      <div class="col-md-6">
+        <a href="{% url 'store:list_product' %}?collection={{collection.slug}}" data-type="collection" data-slug="slug"
+          class="collection-card d-block position-relative overflow-hidden" style="height: 550px;">
+          <div class="card-img-wrapper">
+            <img src="{{ collection.image.url }}" alt="{{ collection.title }}" class="w-100 h-100 object-fit-cover">
+          </div>
+          <div class="collection-overlay">
+            <div class="collection-details">
+              <h3>{{ collection.title }}</h3>
+              <span class="btn-discover">{{ collection.button_text }}</span>
+            </div>
+          </div>
+        </a>
       </div>
+      {% endfor %}
     </div>
   </div>
 </section>
 
-<!-- end about section -->
+<!-- end collection sections -->
+
+
 
 <!-- why us section -->
 
@@ -314,8 +245,47 @@
 </section>
 <!-- end client section -->
 
-  <a href="#top" class="amazon-back-to-top">
-    Back to top
-  </a>
+
+<!-- about section -->
+
+<section class="about_section" id="about-section">
+  <div class="container-fluid  ">
+    <div class="row">
+      <div class="col-md-5 ml-auto">
+        <div class="detail-box pr-md-3">
+          <div class="heading_container">
+            <h2>
+              We Provide Best For You
+            </h2>
+          </div>
+          <p>
+            Totam architecto rem beatae veniam, cum officiis adipisci soluta perspiciatis ipsa, expedita
+            maiores quae accusantium. Animi veniam aperiam, necessitatibus mollitia ipsum id optio ipsa odio
+            ab facilis sit labore officia!
+            Repellat expedita, deserunt eum soluta rem culpa. Aut, necessitatibus cumque. Voluptas
+            consequuntur vitae aperiam animi sint earum, ex unde cupiditate, molestias dolore quos quas
+            possimus eveniet facilis magnam? Vero, dicta.
+          </p>
+          <a href="">
+            Read More
+          </a>
+        </div>
+      </div>
+      <div class="col-md-6 px-0">
+        <div class="img-box">
+          <img src="images/about-img.jpg" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- end about section -->
+
+
+<a href="#top" class="back-to-top">
+  <span>Back to top</span>
+  <i class="fa fa-angle-up"></i>
+</a>
 
 {% endblock content %}

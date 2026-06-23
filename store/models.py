@@ -8,8 +8,6 @@ class Category(models.Model):
     name = models.CharField(max_length=250)
     created_at = models.DateTimeField(auto_now_add=True)
     
-    
-    
     slug = models.SlugField(null=True, blank=True, unique=True, allow_unicode=True)
 
     def save(self, *args, **kwargs):
@@ -36,7 +34,6 @@ class Category(models.Model):
     
     def get_category_url(self):
         return reverse('store:product_by_category', args=[self.slug])
-    
     
 class Product(models.Model):
     class Status(models.TextChoices):
@@ -70,8 +67,45 @@ class Product(models.Model):
     def get_product_url(self):
         return reverse('store:product_detail', args=[self.slug])
     
+    
     class Meta:
         indexes = [
             models.Index(fields=['id', 'slug']),
             models.Index(fields=['name']),
-        ]
+    ]
+    
+class Collection(models.Model):
+    title = models.CharField(max_length=100)
+    subtitle = models.CharField(max_length=100)
+    button_text = models.CharField(max_length=50, default="DISCOVER NOW")
+    image = models.ImageField(upload_to='collections/')
+    products = models.ManyToManyField(Product, related_name='collections', blank=True)
+    
+    slug = models.SlugField(null=True, blank=True, unique=True, allow_unicode=True)
+    
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            original_slug = slugify(self.title, allow_unicode=True)
+            queryset = Collection.objects.all()
+            
+            if not original_slug:
+                original_slug = "collection"
+                
+            slug = original_slug
+            next_num = 1
+            
+            while queryset.filter(slug=slug).exists():
+                slug = f"{original_slug}-{next_num}"
+                next_num += 1
+                
+            self.slug = slug
+            
+        super().save(*args, **kwargs)
+    
+    
+    def __str__(self):
+        return self.title
+    
+    def get_collection_url(self):
+        return reverse('store:product_by_collection', args=[self.slug])

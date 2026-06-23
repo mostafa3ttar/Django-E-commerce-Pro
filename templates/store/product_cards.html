@@ -1,6 +1,6 @@
-{% for product in page_obj %} <div class="col-md-4 col-sm-6">
+{% for product in page_obj %} <div class="col-md-4 col-sm-6 ">
   <div class="product-card-modern shadow-sm h-100">
-    <div class="card-img-wrapper">
+    <div class="product-card-img-container">
       <a href="{{product.get_product_url}}">
         {% if product.image %}
         <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid">

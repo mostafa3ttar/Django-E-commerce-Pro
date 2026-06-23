@@ -1,114 +1,52 @@
 {% load static %}
 
 <!-- info section -->
-<section class="info_section ">
+
+<section class="info_section">
   <div class="container">
     <div class="row">
       <div class="col-md-3">
         <div class="info_contact">
-          <h5>
-            <a href="" class="navbar-brand">
-              <span>
-                Minics
-              </span>
-            </a>
-          </h5>
-          <p style="color: #748CAB;">
-            <i class="fa fa-map-marker" aria-hidden="true" style="color: #FFFFFF;"></i>
-            Egypt
-          </p>
-          <p>
-            <a href="https://wa.me/201100103523">
-              <i class="bi bi-telephone" style="color: #FFFFFF;" aria-hidden="true"></i>
-              +20 1100103523
-            </a>
-          </p>
-          <p>
-            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=bonnyscent@gmail.com">
-              <i class="fa fa-envelope" style="color: #FFFFFF" aria-hidden="true"></i>
-              bonnyscent@gmail.com
-            </a>
-          </p>
+          <a href="/" class="footer-brand">
+            <span>BONNY</span>
+            <span>FRAGRANCE</span>
+          </a>
+          <p><i class="fa fa-map-marker"></i> Egypt</p>
+          <p><a href="https://wa.me/201100103523"><i class="bi bi-telephone"></i> +20 1100103523</a></p>
+          <p><a href="mailto:bonnyscent@gmail.com"><i class="fa fa-envelope"></i> bonnyscent@gmail.com</a></p>
         </div>
       </div>
+
       <div class="col-md-3">
-        <div class="info_info">
-          <h5>
-            Information
-          </h5>
-          <p>
-            Eligendi sunt, provident, debitis nemo, facilis cupiditate velit libero dolorum aperiam enim nulla iste
-            maxime corrupti ad illo libero minus.
-          </p>
-        </div>
+        <h5>About Us</h5>
+        <p class="brand-bio">BONNY defines elegance through fragrance. We bring you global luxury standards with a
+          unique minimalist touch.</p>
       </div>
+
       <div class="col-md-3">
-        <div class="info_links">
-          <h5>
-            Useful Link
-          </h5>
-          <ul>
-            <li>
-              <a href="{% url 'store:home' %}">
-                Home
-              </a>
-            </li>
-            <li>
-              <a href="{% url 'store:home' %}#about-section">
-                About
-              </a>
-            </li>
-            <li>
-              <a href="{% url 'store:list_product' %}">
-                Products
-              </a>
-            </li>
-            <li>
-              <a href="{% url 'store:home' %}#why-us">
-                Why Us
-              </a>
-            </li>
-            <li>
-              <a href="{% url 'store:home' %}#testimonial">
-                Testimonial
-              </a>
-            </li>
-          </ul>
-        </div>
+        <h5>Quick Links</h5>
+        <ul class="footer-links">
+          <li><a href="{% url 'store:home' %}">Home</a></li>
+          <li><a href="{% url 'store:list_product' %}">Shop Products</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+        </ul>
       </div>
+
       <div class="col-md-3">
-        <div class="info_form ">
-          <h5>
-            Newsletter
-          </h5>
-          <form action="">
-            <input type="email" placeholder="Enter your email">
-            <button>
-              Subscribe
-            </button>
-          </form>
-          <div class="social_box">
-            <a href="https://www.facebook.com/Bonnyfragrance" target="_blank" class="facebook-link-modern"
-              aria-label="Facebook">
-              <i class="fa fa-facebook-f" aria-hidden="true"></i>
-            </a>
-            <a href="https://www.instagram.com/bonny.fragrance" target="_blank" class="instagram-link-modern"
-              aria-label="Instagram">
-              <i class="fab fa-instagram" aria-hidden="true"></i>
-            </a>
-            <a href="https://wa.me/201100103523" target="_blank" class="whatsapp-link-modern" aria-label="WhatsApp">
-              <i class="fa fa-whatsapp" aria-hidden="true"></i>
-            </a>
-            <a href="" class="youtube-link-modern" aria-label="Youtube">
-              <i class="fa fa-youtube" aria-hidden="true"></i>
-            </a>
-          </div>
+        <h5>Newsletter</h5>
+        <form class="footer-form">
+          <input type="email" placeholder="Enter your email" required>
+          <button type="submit">Subscribe</button>
+        </form>
+        <div class="social_box">
+          <a href="https://www.facebook.com/Bonnyfragrance" target="_blank"><i class="fa fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/bonny.fragrance" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="https://wa.me/201100103523" target="_blank"><i class="fa fa-whatsapp"></i></a>
         </div>
       </div>
     </div>
   </div>
 </section>
-
 <!-- end info_section -->
 
 
@@ -121,3 +59,5 @@
 <script src="{% static 'js/custom.js' %}"></script>
 <!-- main js -->
 <script src="{% static 'js/main.js' %}"></script>
+<!-- popper js -->
+<script src="{% static 'js/popper.js' %}"></script>

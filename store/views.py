@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Product, Category
+from .models import Product, Category, Collection
 from django.contrib.postgres.search import SearchVector, SearchRank, SearchQuery
 from cart.forms import CartAddProductForm
 from django.http import JsonResponse
@@ -9,20 +9,23 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 
 def home(request):
-    return render(request, 'store/home.html')
+    collections = Collection.objects.all()
+    context = {'collections': collections}
+    return render(request, 'store/home.html', context)
 
-def list_product(request, category_slug=None):
+def list_product(request, category_slug=None,collection_slug=None):
     category = None
-    selected_slug = category_slug or request.GET.get('category')
+    collection = None
+    selected_slug = category_slug or collection_slug or request.GET.get('category') or request.GET.get('collection')
     query = request.GET.get('query', '').strip()
     
     products = Product.objects.filter(status=Product.Status.AVAILABLE)
-    
     if request.headers.get('x-requested-with') == 'XMLHttpRequest' and query:
         matched_products = products.filter(
             Q(name__icontains=query) | 
             Q(description__icontains=query) |
-            Q(category__name__icontains=query)
+            Q(category__name__icontains=query)| 
+            Q(collections__title__icontains=query)
         ).distinct()[:5]
         
         suggestions = []
@@ -30,23 +33,32 @@ def list_product(request, category_slug=None):
             suggestions.append({
                 'name': p.name,
                 'url': f"/product_detail/{p.slug}/" if hasattr(p, 'slug') else "#", 
-                'category': p.category.name if p.category else ''
+                'category': p.category.name if p.category else '',
+                'collections': p.collections.first().title if p.collections.exists() else '',
             })
         return JsonResponse({'suggestions': suggestions})
 
     if selected_slug == 'best_seller':
-        products = Product.objects.filter(status=Product.Status.AVAILABLE, is_best_seller=True)
+        products = products.filter(status=Product.Status.AVAILABLE, is_best_seller=True)
     elif selected_slug and selected_slug != 'all':
-        category = get_object_or_404(Category, slug=selected_slug)
-        products = Product.objects.filter(status=Product.Status.AVAILABLE, category=category)
+        category = Category.objects.filter(slug=selected_slug).first()
+        collection = Collection.objects.filter(slug=selected_slug).first()
+        if category:
+            products = products.filter(status=Product.Status.AVAILABLE, category=category)
+        else:
+            if collection:
+                products = products.filter(status=Product.Status.AVAILABLE, collections=collection)
+            else:
+                products = products.none()
             
     if query:
         products = products.filter(
             Q(name__icontains=query) |         
             Q(description__icontains=query) |       
-            Q(category__name__icontains=query)  
+            Q(category__name__icontains=query) |
+            Q(collections__title__icontains=query) 
         ).distinct()
-        search_vector = SearchVector('name', 'description', 'category')
+        search_vector = SearchVector('name', 'description', 'category__name', 'collections__title')
         search_query = SearchQuery(query)
         products = products.annotate(
             search=search_vector,
@@ -67,6 +79,7 @@ def list_product(request, category_slug=None):
     
     context = {'products':products,
             'category':category,
+            'collection':collection,
             'page_obj':page_obj,
             }
     return render(request, 'store/list_product.html', context)

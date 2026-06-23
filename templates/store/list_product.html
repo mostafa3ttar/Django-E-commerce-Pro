@@ -3,30 +3,35 @@
 
 {% block content %}
 
+
 <!-- product section -->
 
 <div class="container my-5">
+
   <div class="text-center mb-4">
     <h2 class="fw-bold dynamic-title" style="color: #0D1321;">Our Products</h2>
   </div>
 
   <div class="d-flex justify-content-center flex-wrap gap-3 mb-5">
-    <button class="btn category-btn active" data-category="best_seller">Best seller</button>
+    <button class="btn category-btn" data-type="category" data-slug="all">All</button>
+    <button class="btn category-btn" data-type="category" data-slug="best_seller">Best seller</button>
 
     {% for category in categories %}
-    <button class="btn category-btn" data-category="{{ category.slug }}">{{ category.name }}</button>
+    <button class="btn category-btn" data-type="category" data-slug="{{ category.slug }}">{{ category.name }}</button>
     {% endfor %}
   </div>
 
   <div class="row g-4" id="products-grid">
     {% include 'store/product_cards.html' %}
   </div>
+
 </div>
 
 <!-- end product section -->
 
-<a href="#top" class="amazon-back-to-top">
-  Back to top
+<a href="#top" class="back-to-top">
+  <span>Back to top</span>
+  <i class="fa fa-angle-up"></i>
 </a>
 
 
