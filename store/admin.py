@@ -7,6 +7,8 @@ admin.site.register(Category)
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     readonly_fields = ['slug']
+    list_display = ['name', 'category','price','stock','status']
+    list_editable = ['status','stock']
     
 @admin.register(Collection)
 class CollectionAdmin(admin.ModelAdmin):

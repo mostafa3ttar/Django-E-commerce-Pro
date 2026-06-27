@@ -31,7 +31,7 @@
     </div>
     <div class="row g-4">
       {% for collection in collections %}
-      <div class="col-md-6">
+      <div class="col-md-4">
         <a href="{% url 'store:list_product' %}?collection={{collection.slug}}" data-type="collection" data-slug="slug"
           class="collection-card d-block position-relative overflow-hidden" style="height: 550px;">
           <div class="card-img-wrapper">

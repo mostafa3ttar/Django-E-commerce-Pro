@@ -87,10 +87,15 @@
                         </td>
                     </tr>
 
-                    {% if cart.coupon %}
+                    {% if cart.coupon.active %}
                     <tr id="coupon-row">
                         <td class="ps-0 text-muted">
-                            <span style="color: #2ec4b6; font-weight: 600;">🏷️ Coupon "{{ cart.coupon.code }}"</span>
+                            <span style="color: #2ec4b6; font-weight: 600;">
+                                🏷️ Coupon "{{ cart.coupon.code }}"
+                            </span>
+                            <span class="badge" style="background-color: #2ec4b6; font-size: 7.5pt;">
+                                -{{ cart.coupon.discount }}%
+                            </span>
                         </td>
                         <td class="pe-0 text-end fw-bold" id="coupon-discount-val"
                             data-discount="{{ cart.get_discount }}" style="color: #dc3545; white-space: nowrap;">
@@ -113,7 +118,7 @@
                         </td>
                         <td class="pe-0 pt-3 text-end" id="order-total" style="white-space: nowrap;">
                             <div class="text-end">
-                                {% if cart.coupon %}
+                                {% if cart.coupon.active %}
                                 <div class="text-muted text-decoration-line-through"
                                     style="font-size: 10pt; margin-bottom: -2px;">
                                     {{ cart.get_total_price }} EGP

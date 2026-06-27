@@ -4,54 +4,82 @@
 {% block content %}
 
 <!-- product details section -->
-<section class="product_details_section layout_padding">
-  <div class="container">
-    <div class="heading_container heading_center my-2">
-      <h2>
-        Product Details
-      </h2>
-    </div>
-    <div class="row">
+<section class="product_details_section">
+  <div class="container py-5">
+    <div class="row g-5 align-items-start">
       <div class="col-md-6">
-        <div class="img-box">
-          <img src="{{product.image.url}}" alt="Product Name" class="img-fluid">
+        <div class="product-image-wrapper">
+          <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid main-product-img">
         </div>
       </div>
+
       <div class="col-md-6">
-        <div class="detail-box">
-          <h4>{{product.name}}</h4>
-          <h5 class="my-3">
-            <span>$</span> {{product.price}}
-          </h5>
-          <p>
-            {{product.description}}
-          </p>
-          <div class="star_container my-4">
-            <i class="fa fa-star" aria-hidden="true"></i>
-            <i class="fa fa-star" aria-hidden="true"></i>
-            <i class="fa fa-star" aria-hidden="true"></i>
-            <i class="fa fa-star" aria-hidden="true"></i>
-            <i class="fa fa-star-half-o" aria-hidden="true"></i>
+        <div class="product-info">
+          <h1 class="display-5 fw-bold text-dark">{{ product.name }}</h1>
+          <h3 class="text-primary my-3 fw-bold">{{ product.price|floatformat:2 }} EGP</h3>
+
+          <p class="text-secondary lead mb-4">{{ product.description }}</p>
+
+          <div class="rating mb-4 text-warning">
+            <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+            <i class="fa fa-star-half-o"></i>
           </div>
-          <form action="{% url 'cart:cart_add' product.id %}" method="post">
 
-            {{cart_product_form}}
+          {% if product.stock > 0 %}
+          <form action="{% url 'cart:cart_add' product.id %}" method="post" class="cart-form">
             {% csrf_token %}
-            <button type="submit" class="btn btn-outline-info my-3 add-to-cart-btn">Add to cart</button>
+            <div class="d-flex align-items-center gap-3">
+              <div class="quantity-select-wrapper d-flex flex-column align-items-center">
+                <div class="d-flex align-items-center">
+                  <button type="button" class="btn btn-outline-secondary qty-btn" onclick="changeQuantity(this, -1)">-</button>
+                  <div class="mx-2">{{ cart_product_form.quantity }}</div>
+                  <button type="button" class="btn btn-outline-secondary qty-btn" onclick="changeQuantity(this, 1)">+</button>
+                </div>
+                {% if product.stock > 2 %}
+                <p>Avilable {{product.stock}} in the stoke.</p>
+                {% else %}
+                <p>Only {{product.stock}} avilable in the stoke.</p>
+                {% endif %}
+                
 
+                {% if cart_product_form.quantity.errors %}
+                <div class="text-danger mt-1" style="font-size: 0.85rem;">
+                  {{ cart_product_form.quantity.errors.as_text }}
+                </div>
+                {% endif %}
+
+                {{ cart_product_form.override }}
+              </div>
+
+              <button type="submit" class="add-to-cart-btn px-5 py-3">
+                <i class="fa-solid fa-cart-plus me-2"></i> ADD TO CART
+              </button>
+            </div>
           </form>
+          {% else %}
+          <div class="alert alert-danger">
+            <strong>عذراً، هذا المنتج غير متوفر حالياً (Out of Stock)</strong>
+          </div>
+          {% endif %}
         </div>
       </div>
     </div>
+
     <div class="row mt-5">
-      <div class="col-md-12">
-        <h4>Additional Information</h4>
-        <ul>
-          <li>Feature 1: Description of the feature.</li>
-          <li>Feature 2: Description of the feature.</li>
-          <li>Feature 3: Description of the feature.</li>
-          <li>Feature 4: Description of the feature.</li>
-        </ul>
+      <div class="col-12">
+        <div class="info-card p-4 rounded-4 shadow-sm border-0">
+          <h4 class="mb-4 fw-bold">Additional Information</h4>
+          <div class="row">
+            <div class="col-md-6">
+              <p class="mb-2"><i class="fa fa-check text-success me-2"></i> Premium Quality Ingredients</p>
+              <p class="mb-2"><i class="fa fa-check text-success me-2"></i> Long Lasting Fragrance (24h+)</p>
+            </div>
+            <div class="col-md-6">
+              <p class="mb-2"><i class="fa fa-check text-success me-2"></i> Elegant Glass Bottle</p>
+              <p class="mb-2"><i class="fa fa-check text-success me-2"></i> Original Guaranteed</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

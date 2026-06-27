@@ -5,6 +5,7 @@ from cart.cart import Cart
 from .tasks import send_emails_order_create
 from coupons.models import Coupon
 from django.contrib.auth.decorators import login_required
+from django.db import transaction
 
 from django.http import HttpResponse
 from django.template.loader import render_to_string

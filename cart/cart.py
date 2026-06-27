@@ -20,9 +20,9 @@ class Cart:
             cart = self.session[settings.CART_SESSION_ID] = {}
             
         self.cart = cart
-        
         self.coupon_id = self.session.get('coupon_id')
         
+        self.cleanup_cart()
         
     def add(self, product, quantity=1, override_quantity=False):
         product_id = str(product.id)
@@ -38,7 +38,12 @@ class Cart:
             
         self.save()
         
-        
+    
+    def cleanup_cart(self):
+        for product_id in list(self.cart.keys()):
+            if not Product.objects.filter(id=product_id).exists():
+                del self.cart[product_id]
+                
     def save(self):
         self.session.modified = True
         
@@ -96,7 +101,7 @@ class Cart:
     
     
     def clear(self):
-        del self.session[settings.CART_SESSION_ID]
+        self.session.pop(settings.CART_SESSION_ID, None)
         self.save()
         
         

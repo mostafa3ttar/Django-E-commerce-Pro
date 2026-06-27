@@ -90,7 +90,7 @@ def product_detail(request, product_slug):
     if product is None:
         product = get_object_or_404(Product, slug=product_slug, status=Product.Status.AVAILABLE)  #to get from database
         cache.set(cache_key, product, timeout=60 * 30)   #to get from cache 
-    cart_product_form = CartAddProductForm()
+    cart_product_form = CartAddProductForm(product=product)
     context = {'product':product,
             'cart_product_form':cart_product_form
             }

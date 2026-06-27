@@ -198,6 +198,56 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+// Product add buttons
+function changeQuantity(button, delta) {
+    const form = button.closest('form');
+    const input = form.querySelector('input[name="quantity"]');
+    if (!input) return;
+
+    const max = parseInt(input.getAttribute('max')) || 1;
+    let val = parseInt(input.value) + delta;
+
+    if (val < 1) val = 1;
+    if (val > max) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'تنبيه',
+            text: 'المتاح من هذا المنتج هو ' + max + ' قطعة فقط.',
+            confirmButtonColor: '#0D1321'
+        });
+        val = max;
+    }
+    input.value = val;
+}
+
+// Cart add buttons
+function changeCartQuantity(button, delta) {
+    const form = button.closest('form');
+    const input = form.querySelector('input[name="quantity"]');
+    if (!input) return;
+
+    const max = parseInt(input.getAttribute('max')) || 1;
+    let val = parseInt(input.value) + delta;
+
+    if (val < 1) val = 1;
+    if (val > max) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'عذراً!',
+            text: 'المتاح من هذا المنتج هو ' + max + ' قطعة فقط.',
+            confirmButtonColor: '#0D1321'
+        });
+        return;
+    }
+
+    input.value = val;
+
+    const buttons = form.querySelectorAll('button');
+    buttons.forEach(btn => btn.disabled = true);
+
+    form.submit();
+}
+
 // Shiping and total price
 document.addEventListener('DOMContentLoaded', function () {
     const citySelect = document.getElementById('id_city');

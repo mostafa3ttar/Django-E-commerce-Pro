@@ -47,10 +47,10 @@ INSTALLED_APPS = [
     
     # my apps
     'accounts',
-    'store',
+    'store.apps.StoreConfig',
     'cart',
     'orders',
-    'coupons',
+    'coupons.apps.CouponsConfig',
 ]
 
 CRISPY_TEMPLATE_PACK = "bootstrap5"

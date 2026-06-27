@@ -161,6 +161,8 @@ class OrderPay(models.Model):
         return f'Payment for order ID: {self.order.order_id}'
 
     def save(self, *args, **kwargs):
+        old_record = OrderPay.objects.filter(pk=self.pk).first()
+        is_first_time_paid = self.paid and (not old_record or not old_record.paid)
         super().save(*args, **kwargs)
     
         if self.order:
@@ -171,9 +173,15 @@ class OrderPay(models.Model):
                 status=new_status
             )
         
-            if self.paid:
+            if is_first_time_paid:
+                from orders.services import process_order_stock
                 from .tasks import payment_completed
+                cart_items = [
+                    {'product': item.product, 'quantity': item.quantity} 
+                    for item in self.order.items.all()
+                ]
             
+                transaction.on_commit(lambda: process_order_stock(cart_items))
                 transaction.on_commit(lambda: payment_completed.delay(self.order.id))
 
 

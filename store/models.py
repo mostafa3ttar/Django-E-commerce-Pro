@@ -42,6 +42,7 @@ class Product(models.Model):
     name = models.CharField(max_length=250)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
     price = models.DecimalField(max_digits=6, decimal_places=2)
+    stock = models.PositiveIntegerField(default=0)
     image = models.ImageField(upload_to='products/images%y%m%d')
     status = models.CharField(max_length=2, choices=Status.choices, default=Status.AVAILABLE)
     description = models.TextField(max_length=1500)
